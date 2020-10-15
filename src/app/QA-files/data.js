@@ -38,8 +38,6 @@ app.get('/api', async (req, res) => {
 });
 
 app.post('/api', async (req, res) => {
-    console.log(req.body);
-    console.log(res.body);
     const createTestCafe = require('testcafe');
 
     const setupLicense = async (req, res) => {
@@ -48,10 +46,13 @@ app.post('/api', async (req, res) => {
         const runner = testcafe.createRunner();
         const remoteConnection = await testcafe.createBrowserConnection();
 
-        let data = { click: req.body.click, url: req.body.url };
+        let data = (body) => {
+            console.log(body);
+            return { click: req.body.click, url: req.body.url };
+        }
         const scriptContent = `
   function getParameters() {
-    return ${JSON.stringify(data)};
+    return ${JSON.stringify(data(req.body))};
   }`
 
         const test = await runner

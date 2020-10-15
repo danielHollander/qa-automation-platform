@@ -17,7 +17,6 @@ fixture`Fixture`
 
 test('basic', async t => {
     let data = await t.eval(() => getParameters());
-    console.log(data);
 
     await t
         .click(`${data.click}`)
