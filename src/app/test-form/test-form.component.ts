@@ -17,9 +17,18 @@ export class TestFormComponent implements OnInit {
   ngOnInit(): void {
   }
   onSubmit = (event: any) => {
-    console.log(`click: ${event.target[1].value}`);
-    console.log(`URL: ${event.target[3].value}`);
-    let data = { click: event.target[1].value, url: event.target[3].value }
+    let tempData = (event: any) => {
+      let dataObject = {};
+      for (var i = 0; i < event.currentTarget.length; i++) {
+        if (event.currentTarget[i].type == "checkbox" && event.currentTarget[i].value == "on") {
+          dataObject[event.currentTarget[i].id] = event.currentTarget[i + 1].value;
+
+        }
+      }
+      console.log(dataObject);
+      return dataObject;
+    }
+    let data = tempData(event);
     this.http.post<any>('http://localhost:3001/api', data, {}).subscribe();
   }
 }

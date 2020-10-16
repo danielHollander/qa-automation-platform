@@ -48,7 +48,7 @@ app.post('/api', async (req, res) => {
 
         let data = (body) => {
             console.log(body);
-            return { click: req.body.click, url: req.body.url };
+            return body;
         }
         const scriptContent = `
   function getParameters() {
