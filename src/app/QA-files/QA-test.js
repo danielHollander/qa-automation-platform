@@ -1,25 +1,20 @@
-import { Selector, RequestLogger } from 'testcafe';
-import { ClientFunction } from 'testcafe';
-const cors = require('cors');
-const express = require('express');
-const app = express();
+import { ClientFunction, t } from 'testcafe';
+const dataSet = require('./data.json');
+const getWindowLocation = ClientFunction(() => getParameters());
 
 
-app.use(cors())
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-const getDataFromClient = ClientFunction(() => getParameters());
+var x = 'not test name'
 
 
 fixture`Fixture`
-    .page('http://localhost:4200/api')
+    .page('http://localhost:4200/')
 
-test('basic', async t => {
+
+test(`${dataSet[dataSet.length - 1].name}`, async t => {
     let data = await t.eval(() => getParameters());
-    console.log(data);
     await t
         .click(`${data.click}`)
         .navigateTo(`${data.navigate}`);
 });
+
 

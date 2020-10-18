@@ -19,6 +19,7 @@ export class TestFormComponent implements OnInit {
   onSubmit = (event: any) => {
     let tempData = (event: any) => {
       let dataObject = {};
+      dataObject["name"] = event.currentTarget[0].value;
       for (var i = 0; i < event.currentTarget.length; i++) {
         if (event.currentTarget[i].type == "checkbox" && event.currentTarget[i].value == "on") {
           dataObject[event.currentTarget[i].id] = event.currentTarget[i + 1].value;
@@ -29,6 +30,6 @@ export class TestFormComponent implements OnInit {
       return dataObject;
     }
     let data = tempData(event);
-    this.http.post<any>('http://localhost:3001/api', data, {}).subscribe();
+    this.http.post<any>('http://localhost:3001/tests', data, {}).subscribe();
   }
 }
