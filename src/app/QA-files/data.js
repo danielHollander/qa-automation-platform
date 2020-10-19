@@ -29,6 +29,9 @@ const dataSchema = new mongoose.Schema({
 
 const testSchema = new mongoose.Schema({
     name: String,
+    click: String,
+    navigation: String,
+    date: String,
 });
 
 
@@ -52,7 +55,7 @@ app.get('/api', async (req, res) => {
 let tests = null;
 
 app.get('/tests', async (req, res) => {
-    tests = await Tests.find().sort('name')
+    tests = await Tests.find().sort({ date: -1 })
     res.send(tests);
 });
 
@@ -61,6 +64,9 @@ app.post('/tests', async (req, res) => {
     async function createTest(req, res) {
         const test = new Tests({
             name: req.body.name,
+            date: req.body.date,
+            click: req.body.click,
+            navigation: req.body.navigation
         });
         const result = await test.save();
     }
@@ -94,7 +100,7 @@ app.post('/tests', async (req, res) => {
     fetch(url)
         .then(() => {
             const reqData = JSON.stringify([req.body]);
-            console.log(reqData);
+
 
             fs.readFile('data.json', 'utf-8', (err, data) => {
                 if (err) {
@@ -116,10 +122,8 @@ app.post('/tests', async (req, res) => {
 
                     console.log("this is the file: ");
                     file.push(req.body);
-                    console.log(file)
 
                     const json = JSON.stringify(file);
-                    console.log(json)
                     fs.writeFileSync('data.json', json, 'utf8', (err) => {
                         if (err) {
                             console.log(err);

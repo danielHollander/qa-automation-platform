@@ -23,9 +23,12 @@ export class TestFormComponent implements OnInit {
       for (var i = 0; i < event.currentTarget.length; i++) {
         if (event.currentTarget[i].type == "checkbox" && event.currentTarget[i].value == "on") {
           dataObject[event.currentTarget[i].id] = event.currentTarget[i + 1].value;
-
         }
       }
+      //Always add a date to the test request
+      let today = (new Date).toUTCString();
+      dataObject["date"] = today;
+
       console.log(dataObject);
       return dataObject;
     }

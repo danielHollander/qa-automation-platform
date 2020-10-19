@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TestFormComponent } from './test-form/test-form.component';
+import { TestsDataComponent } from './tests-data/tests-data.component';
 
 
 
@@ -20,6 +21,7 @@ import { TestFormComponent } from './test-form/test-form.component';
     TestAutomationComponent,
     DashboardComponent,
     TestFormComponent,
+    TestsDataComponent,
   ],
   imports: [
     BrowserModule,
