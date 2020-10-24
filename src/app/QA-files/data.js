@@ -28,6 +28,7 @@ const dataSchema = new mongoose.Schema({
 });
 
 const testSchema = new mongoose.Schema({
+    id: Number,
     name: String,
     click: String,
     navigation: String,
@@ -55,7 +56,7 @@ app.get('/api', async (req, res) => {
 let tests = null;
 
 app.get('/tests', async (req, res) => {
-    tests = await Tests.find().sort({ date: -1 })
+    tests = await Tests.find().sort('id')
     res.send(tests);
 });
 
@@ -63,6 +64,7 @@ app.post('/tests', async (req, res) => {
     //Update DB
     async function createTest(req, res) {
         const test = new Tests({
+            id: req.body.id,
             name: req.body.name,
             date: req.body.date,
             click: req.body.click,

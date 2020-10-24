@@ -25,7 +25,7 @@ export class TestsDataComponent implements OnInit {
     try {
       if (this.testsData.length > 0) {
         const tempHeaders = Object.values(this.testsData).map((obj, objectIndex, arr) => {
-          return Object.keys(obj).map(keys => keys !== "__v" ? keys : '');
+          return Object.keys(obj).map(keys => keys !== "__v" && keys !== "_id" ? keys : '');
         });
         if (this.headers.length <= tempHeaders.length) {
           for (var i = 0; i < tempHeaders[0].length; i++) {
