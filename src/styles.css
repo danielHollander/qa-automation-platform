@@ -283,3 +283,7 @@ form {
 form+button {
   margin-top: 10px;
 }
+
+select#tests {
+  width: fit-content;
+}

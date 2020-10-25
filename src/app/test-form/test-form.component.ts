@@ -61,8 +61,6 @@ export class TestFormComponent implements OnInit {
       //If this is the first test created mark it as "1"
       dataObject["id"] = typeof this.testsData[this.testsData.length - 1] != "undefined" ? this.testsData.length : 1;
 
-
-
       console.log(dataObject);
       return dataObject;
     }

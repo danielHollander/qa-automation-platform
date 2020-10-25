@@ -33,6 +33,11 @@ const testSchema = new mongoose.Schema({
     click: String,
     navigation: String,
     date: String,
+    typeText: String,
+    expect: String,
+    eql: String,
+    getBrowserConsoleMessages: String,
+    custom: String
 });
 
 
@@ -68,7 +73,12 @@ app.post('/tests', async (req, res) => {
             name: req.body.name,
             date: req.body.date,
             click: req.body.click,
-            navigation: req.body.navigation
+            navigation: req.body.navigation,
+            typeText: req.body.typeText,
+            expect: req.body.expect,
+            eql: req.body.eql,
+            getBrowserConsoleMessages: req.body.getBrowserConsoleMessages,
+            custom: req.body.custom
         });
         const result = await test.save();
     }
@@ -110,7 +120,7 @@ app.post('/tests', async (req, res) => {
                 }
                 //no data is available
                 if (data.length == 0) {
-                    console.log("Json file is empty writing data for the first time...If you are not Daniel it means someone drop the database - Kill him :) ")
+                    console.log("Json file is empty writing data for the first time...If you are not Daniel it means someone dropped the database - Kill him :) ")
                     fs.writeFileSync('data.json', reqData, (err) => {
                         if (err) {
                             throw err;

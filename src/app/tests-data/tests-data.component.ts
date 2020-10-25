@@ -47,7 +47,12 @@ export class TestsDataComponent implements OnInit {
         "name",
         "date",
         "click",
-        "navigation"
+        "navigation",
+        "expect",
+        "eql",
+        "typeText",
+        "getBrowserConsoleMessages",
+        "custom",
       ];
       const filtered = Object.keys(object)
         .filter(key => allowed.includes(key))

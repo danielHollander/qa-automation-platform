@@ -4,4 +4,9 @@ export interface Tests {
     click: String,
     navigation: String,
     date: String,
+    typeText: String,
+    expect: String,
+    eql: String,
+    getBrowserConsoleMessages: String,
+    custom: String
 }
