@@ -29,7 +29,8 @@ export class TestsDataComponent implements OnInit {
         });
         if (this.headers.length <= tempHeaders.length) {
           for (var i = 0; i < tempHeaders[0].length; i++) {
-            this.headers.push(tempHeaders[0][i]);;
+            if (tempHeaders[0][i] !== "")
+              this.headers.push(tempHeaders[0][i]);;
           }
         }
       }
@@ -47,7 +48,7 @@ export class TestsDataComponent implements OnInit {
         "name",
         "date",
         "click",
-        "navigation",
+        "navigateTo",
         "expect",
         "eql",
         "typeText",

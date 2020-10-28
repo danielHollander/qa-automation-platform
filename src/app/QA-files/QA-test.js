@@ -1,32 +1,31 @@
+import { debug } from 'console';
 import { ClientFunction, t } from 'testcafe';
 const dataSet = require('./data.json');
-const getWindowLocation = ClientFunction(() => getParameters());
 
-
-var x = 'not test name'
-const createTestDaniel = async (testData, t) => {
-    console.log("If you can read this, it means it worked")
-    await t
-        .click(`3213dasdsa`);
-}
+console.log(dataSet[dataSet.length - 1]);
 
 fixture`Fixture`
     .page('http://localhost:4200/')
-for (let [key, value] of Object.entries(dataSet[dataSet.length - 1])) {
-    if (key == "click" || key == "navigateTo" || key == "typeText") {
-        test(`${dataSet[dataSet.length - 1].name}`, async t => {
-            //Should I use the proto?
-            //Do not have sufficent knowledge for it
-            //MDN says it a feature that is deprecated 
-            for (const [func, funcValue] of Object.entries(t.__proto__)) {
-                if (key == func)
-                    t["testParam"] = funcValue;
-                break;
-            }
-            await t
-                .testParam(value);
-        });
-    }
-}
+//Too expensive efficeny n^2
+const filteredData = Object.entries(dataSet[dataSet.length - 1]).filter(([key, value]) => key != "name" && key != "id" && key != "date");
+
+//Create a string that will reflect all test params
+var testString = '';
+filteredData.forEach(([key, value], index, arr) => {
+    for (var i = 0; i < arr[index][1].length; i++) {
+        testString += `['${key}']` + `('${value[i]}')`;
+    };
+});
+
+
+
+test(`${dataSet[dataSet.length - 1].name}`, async t => {
+    debugger;
+    testString = "t" + testString;
+    //
+    
+    await eval(testString);
+});
+
 
 

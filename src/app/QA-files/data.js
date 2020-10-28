@@ -30,14 +30,14 @@ const dataSchema = new mongoose.Schema({
 const testSchema = new mongoose.Schema({
     id: Number,
     name: String,
-    click: String,
-    navigation: String,
+    click: [String],
+    navigateTo: [String],
     date: String,
-    typeText: String,
-    expect: String,
-    eql: String,
-    getBrowserConsoleMessages: String,
-    custom: String
+    typeText: [String],
+    expect: [String],
+    eql: [String],
+    getBrowserConsoleMessages: [String],
+    custom: [String]
 });
 
 
@@ -73,7 +73,7 @@ app.post('/tests', async (req, res) => {
             name: req.body.name,
             date: req.body.date,
             click: req.body.click,
-            navigation: req.body.navigation,
+            navigateTo: req.body.navigateTo,
             typeText: req.body.typeText,
             expect: req.body.expect,
             eql: req.body.eql,
@@ -81,6 +81,7 @@ app.post('/tests', async (req, res) => {
             custom: req.body.custom
         });
         const result = await test.save();
+        console.log(result);
     }
     createTest(req, res);
 

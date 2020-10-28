@@ -50,7 +50,11 @@ export class TestFormComponent implements OnInit {
       dataObject["name"] = event.currentTarget[0].value;
       for (var i = 0; i < event.currentTarget.length; i++) {
         if (event.currentTarget[i].type == "select-one" && event.currentTarget[i] != "custom") {
-          dataObject[event.currentTarget[i].value] = event.currentTarget[i + 1].value;
+          if (typeof dataObject[event.currentTarget[i].value] == "undefined") {
+            dataObject[event.currentTarget[i].value] = [];
+            dataObject[event.currentTarget[i].value].push(event.currentTarget[i + 1].value);
+          } else
+            dataObject[event.currentTarget[i].value].push(event.currentTarget[i + 1].value);
         }
       }
       //Always add a date to the test request
