@@ -28,11 +28,11 @@ const dataSchema = new mongoose.Schema({
 });
 
 const testSchema = new mongoose.Schema({
-    id: Number,
-    name: String,
+    id: [Number],
+    date: [String],
+    name: [String],
     click: [String],
     navigateTo: [String],
-    date: String,
     typeText: [String],
     expect: [String],
     eql: [String],
