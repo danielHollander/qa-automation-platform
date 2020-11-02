@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from "@angular/common";
-
+import { FormGroup, FormControl } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +14,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TestFormComponent } from './test-form/test-form.component';
 import { TestsDataComponent } from './tests-data/tests-data.component';
 import { FormComponent } from './form/form.component';
+
 
 
 @NgModule({
@@ -31,7 +32,7 @@ import { FormComponent } from './form/form.component';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule, 
+    FormsModule,
     CommonModule
   ],
   providers: [],

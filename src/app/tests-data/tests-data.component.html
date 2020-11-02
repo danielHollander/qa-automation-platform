@@ -4,10 +4,13 @@
         <th *ngFor="let header of headers; index as i" > {{headers[i]}}</th>
     </thead>
     <tbody>
-       <tr *ngFor="let row of values; let i = index;">
-          <td>{{i}}</td>
-          <td *ngFor="let c of row">
-              {{c}}
+       <tr *ngFor="let row of values; let j = index;">
+        <!-- This is stupid-  Daniel please think of a whole new logic for this -->
+          <td *ngFor ="let c of row" [ngClass]="{
+              'fa fa-check-circle': c > 0 && c == row[row.length-1],
+              'fa fa-times-circle': c > 0 && c == row[row.length-1]
+            }">
+            <span *ngIf = "c !== row[row.length-1]"> {{c}} </span>
           </td>
        </tr>
     </tbody>

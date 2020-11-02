@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from "@angular/common/http"
 import { Tests } from '../tests-data/tests-data'
+import { TestsDataComponent } from '../tests-data/tests-data.component'
 
 @Component({
   selector: 'app-test-form',
@@ -13,7 +14,10 @@ export class TestFormComponent implements OnInit {
   errorMessage: any;
 
   constructor(private http: HttpClient) { }
-  testsData: Tests[];
+  testsData: TestsDataComponent["testsData"];
+
+  testName = '';
+  name = new FormControl({ name: this.testName });
 
   componentsArr = [{ component: '<app-form></app-form>', id: 0 }];
 
@@ -24,11 +28,39 @@ export class TestFormComponent implements OnInit {
     this.componentsArr = arr;
   }
 
-  private getDataFromServer = () => {
+  getDataFromServer = () => {
     const promise = this.http.get<Tests[]>('http://localhost:3001/tests').toPromise();
     promise.then((tests) => {
       this.testsData = tests;
+      this.renderValuesData();
     });
+  }
+
+  values = [];
+  renderValuesData = () => {
+    this.values = Object.values(this.testsData).map((object, objectIndex, array) => {
+      const allowed = [
+        "id",
+        "name",
+        "date",
+        "click",
+        "navigateTo",
+        "expect",
+        "eql",
+        "typeText",
+        "getBrowserConsoleMessages",
+        "custom",
+      ];
+      const filtered = Object.keys(object)
+        .filter(key => allowed.includes(key))
+        .reduce((obj, key) => {
+          return {
+            ...obj,
+            [key]: object[key]
+          };
+        }, {});
+      return Object.values(filtered).map((property, index, arr) => typeof property != "undefined" ? property.toString() : '');
+    })
   }
 
   handeReset() {
@@ -37,14 +69,18 @@ export class TestFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDataFromServer();
-    console.log(this.componentsArr);
   }
 
   ngDoCheck() {
     this.sendToChild()
   }
 
+  onUpdateTestName(event: Event) {
+    this.testName = (<HTMLInputElement>event.target).value;
+  }
+
   onSubmit = (event: any) => {
+    console.log(this.testsData);
     let tempData = (event: any) => {
       let dataObject = {};
       dataObject["name"] = event.currentTarget[0].value;
@@ -64,15 +100,10 @@ export class TestFormComponent implements OnInit {
       //Always add an ID to each test
       //If this is the first test created mark it as "1"
       dataObject["id"] = typeof this.testsData[this.testsData.length - 1] != "undefined" ? this.testsData.length : 1;
-
       console.log(dataObject);
       return dataObject;
     }
     let data = tempData(event);
     this.http.post<any>('http://localhost:3001/tests', data, {}).subscribe();
-
-    //For the mean time until a better solution will come up for tests Id
-    //Refresh page on submit
-    window.location.reload();
   }
 }

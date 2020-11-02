@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Tests } from '../tests-data/tests-data'
 import { HttpClient } from "@angular/common/http"
+import { Observable, Subscription } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tests-data',
@@ -11,7 +13,8 @@ export class TestsDataComponent implements OnInit {
   constructor(private http: HttpClient) { }
   testsData: Tests[];
 
-  private getDataFromServer = () => {
+
+  getDataFromServer = () => {
     const promise = this.http.get<Tests[]>('http://localhost:3001/tests').toPromise();
     promise.then((tests) => {
       this.testsData = tests;
@@ -54,6 +57,8 @@ export class TestsDataComponent implements OnInit {
         "typeText",
         "getBrowserConsoleMessages",
         "custom",
+        "status",
+        "duration"
       ];
       const filtered = Object.keys(object)
         .filter(key => allowed.includes(key))
@@ -65,10 +70,32 @@ export class TestsDataComponent implements OnInit {
         }, {});
       return Object.values(filtered).map((property, index, arr) => typeof property != "undefined" ? property.toString() : '');
     })
+
+    console.log(this.values);
   }
+
+  addIconClass = (cellValue) => {
+    console.log(cellValue);
+  }
+
+  updateData;
+
   async ngOnInit() {
     this.getDataFromServer();
+    //See if we can run this only on click and clear it after
+    //Is running it with observable is a better approach? 
+    //Clear the interval?
+    // this.updateData = setInterval(() => {
+    //   const promise = this.http.get<Tests[]>('http://localhost:3001/tests').toPromise();
+    //   promise.then((tests) => {
+    //     console.log("calling interval");
+    //     this.testsData = tests;
+    //     this.renderValuesData();
+    //   });
+    // }, 30000);
   }
 
-
+  ngDoCheck() {
+    console.log(this.testsData);
+  }
 }

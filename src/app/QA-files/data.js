@@ -106,6 +106,10 @@ app.post('/tests', async (req, res) => {
             .src(['QA-test.js'])
             .browsers(['chrome'])
             .clientScripts({ content: scriptContent })
+            .reporter(['spec', {
+                name: 'json',
+                output: './reports.json'
+            }])
             .run();
 
     }
@@ -113,8 +117,6 @@ app.post('/tests', async (req, res) => {
     fetch(url)
         .then(() => {
             const reqData = JSON.stringify([req.body]);
-
-
             fs.readFile('data.json', 'utf-8', (err, data) => {
                 if (err) {
                     throw err;

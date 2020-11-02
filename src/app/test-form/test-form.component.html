@@ -1,8 +1,14 @@
-<form (ngSubmit)="onSubmit($event)">
+<form (ngSubmit)="onSubmit($event)" >
     <label class="label label-default" >Type in Test Name</label>
-    <input type="text" class="form-control" id="name" required />
+    <input type="text" id="name" class="form-control" (input)="onUpdateTestName($event)" required minlength="4" name="name" [(ngModel)]="testName" #name="ngModel"/>
+        <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+            Test name is required or has less than four characters.
+        </div>
+        <div [hidden]="name.invalid || name.inpristine" class="alert alert-success">
+            Test name is OK.
+        </div>
     <app-form [MasterToChild] = componentsArr (parentToChild) = "parentToChild($event)" [childToMaster] = componentsArr (childToParent)="childToParent($event)" *ngFor="let component of componentsArr; index as i" id="{{component.id}}"></app-form>    
-    <input type="submit" value="Submit" class="btn btn-success"/>   
+    <input type="submit" value="Submit" class="btn btn-success" [disabled]="name.invalid || name.inpristine"/>   
 </form>
     <button type="button" class="btn btn-success" (click)="handeReset()">
         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bootstrap-reboot" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

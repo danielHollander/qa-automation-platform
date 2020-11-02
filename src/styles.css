@@ -129,9 +129,6 @@ main {
   justify-content: center;
 }
 
-tbody>tr>td:first-child {
-  display: none;
-}
 
 div.form-group,
 #test-params {
@@ -287,6 +284,19 @@ select#tests {
   width: fit-content;
 }
 
-thead>th:empty {
+th:empty {
   display: none;
+}
+
+th {
+  background-color: #37474f !important;
+  color: #eee;
+}
+
+td {
+  border: 1px solid #dee2e6;
+}
+
+td:last-child {
+  border-right: 2px solid #dee2e6;
 }

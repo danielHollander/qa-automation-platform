@@ -11,19 +11,23 @@ const filteredData = Object.entries(dataSet[dataSet.length - 1]).filter(([key, v
 
 //Create a string that will reflect all test params
 var testString = '';
+//Too expensive efficeny n^2
 filteredData.forEach(([key, value], index, arr) => {
-    for (var i = 0; i < arr[index][1].length; i++) {
-        testString += `['${key}']` + `('${value[i]}')`;
-    };
+    if (key == "typeText") {
+        for (var i = 0; i + 1 < arr[index][1].length; i++) {
+            testString += `['${key}']` + `('${value[i]}', '${value[i + 1]}')`;
+        };
+    } else {
+        for (var i = 0; i < arr[index][1].length; i++) {
+            testString += `['${key}']` + `('${value[i]}')`;
+        };
+    }
 });
 
 
 
 test(`${dataSet[dataSet.length - 1].name}`, async t => {
-    debugger;
     testString = "t" + testString;
-    //
-    
     await eval(testString);
 });
 
