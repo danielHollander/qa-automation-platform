@@ -26,10 +26,12 @@ filteredData.forEach(([key, value], index, arr) => {
 
 
 
-test(`${dataSet[dataSet.length - 1].name}`, async t => {
-    testString = "t" + testString;
-    await eval(testString);
-});
+test
+    .meta({ testId: `${dataSet[dataSet.length - 1].id}`, testName: `${dataSet[dataSet.length - 1].name}` })
+    (`${dataSet[dataSet.length - 1].name}`, async t => {
+        testString = "t" + testString;
+        await eval(testString);
+    });
 
 
 

@@ -6,13 +6,26 @@
     <tbody>
        <tr *ngFor="let row of values; let j = index;">
         <!-- This is stupid-  Daniel please think of a whole new logic for this -->
-          <td *ngFor ="let c of row" [ngClass]="{
-              'fa fa-check-circle': c > 0 && c == row[row.length-1],
-              'fa fa-times-circle': c > 0 && c == row[row.length-1]
+          <td *ngFor ="let c of row; let h = index;">
+            <div class = "fa " [ngClass]="{
+              'fa-check-circle text-success': c > 0 && 10 == h,
+              'fa-times-circle text-danger': c == 0 && 10 == h,
+              'pending' : c=='pending...' && 10 == h,
+              'regular': c !== row[row.length-2]
             }">
-            <span *ngIf = "c !== row[row.length-1]"> {{c}} </span>
+            <span *ngIf = "h !== 10 || c == 'pending...'"> {{c}} </span>
+            </div>
           </td>
        </tr>
     </tbody>
 </table>
+</div>
+<div class="overlay" *ngIf="popup">
+	<div class="popup">
+		<h2>Full Report</h2>
+		<a class="close" (click)="popup = false">&times;</a>
+		<div class="content">
+		  {{testFullReport}}
+		</div>
+	</div>
 </div>

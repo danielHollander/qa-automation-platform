@@ -1,6 +1,6 @@
 {
-  "startTime": "2020-11-02T12:18:12.702Z",
-  "endTime": "2020-11-02T12:18:25.233Z",
+  "startTime": "2020-11-03T13:28:07.612Z",
+  "endTime": "2020-11-03T13:28:21.062Z",
   "userAgents": [
     "Chrome 86.0.4240.111 / Windows 10"
   ],
@@ -15,11 +15,14 @@
       "tests": [
         {
           "name": "Dummy Test",
-          "meta": {},
+          "meta": {
+            "testId": "2",
+            "testName": "Dummy Test"
+          },
           "errs": [
-            "The specified selector does not match any element in the DOM tree.\n\n > | Selector('dadasd')\n\nBrowser: Chrome 86.0.4240.111 / Windows 10\n\n   26 |\n   27 |\n   28 |\n   29 |test(`${dataSet[dataSet.length - 1].name}`, async t => {\n   30 |    testString = \"t\" + testString;\n > 31 |    await eval(testString);\n   32 |});\n   33 |\n   34 |\n   35 |\n   36 |\n\n   at <anonymous> (C:\\Users\\Daniel\\test-automation\\src\\app\\QA-files\\QA-test.js:31:11)\n   at <anonymous> (C:\\Users\\Daniel\\test-automation\\src\\app\\QA-files\\QA-test.js:29:1)"
+            "The specified selector does not match any element in the DOM tree.\n\n > | Selector('dadsa')\n\nBrowser: Chrome 86.0.4240.111 / Windows 10\n\n   28 |\n   29 |test\n   30 |    .meta({ testId: `${dataSet[dataSet.length - 1].id}`, testName: `${dataSet[dataSet.length - 1].name}` })\n   31 |    (`${dataSet[dataSet.length - 1].name}`, async t => {\n   32 |        testString = \"t\" + testString;\n > 33 |        await eval(testString);\n   34 |    });\n   35 |\n   36 |\n   37 |\n   38 |\n\n   at <anonymous> (C:\\Users\\Daniel\\test-automation\\src\\app\\QA-files\\QA-test.js:33:15)\n   at <anonymous> (C:\\Users\\Daniel\\test-automation\\src\\app\\QA-files\\QA-test.js:29:1)"
           ],
-          "durationMs": 12497,
+          "durationMs": 13423,
           "screenshotPath": null,
           "skipped": false
         }

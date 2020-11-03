@@ -2,10 +2,12 @@ const cors = require('cors');
 const express = require('express');
 const app = express();
 const router = express.Router();
+const reports = require('./reports.json');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const fetch = require('node-fetch');
 const Bluebird = require('bluebird');
+const { stringify } = require('querystring');
 const url = 'http://localhost:3001/tests';
 fetch.Promise = Bluebird;
 
@@ -37,11 +39,14 @@ const testSchema = new mongoose.Schema({
     expect: [String],
     eql: [String],
     getBrowserConsoleMessages: [String],
-    custom: [String]
+    custom: [String],
+    status: [String],
+    duration: [String],
+    fullReport: [String],
 });
 
 
-mongoose.connect("mongodb://localhost/playground", { useNewUrlParser: true, useUnifiedTopology: true }).then(() =>
+mongoose.connect("mongodb://localhost/playground", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }).then(() =>
     console.log("Connected to mongoose data base!")
 ).catch(err => console.error('Could not connect to Mongod'));
 
@@ -78,12 +83,17 @@ app.post('/tests', async (req, res) => {
             expect: req.body.expect,
             eql: req.body.eql,
             getBrowserConsoleMessages: req.body.getBrowserConsoleMessages,
-            custom: req.body.custom
+            custom: req.body.custom,
+            status: ["pending..."],
+            duration: ["pending..."],
+            fullReport: ["pending..."]
         });
         const result = await test.save();
         console.log(result);
     }
     createTest(req, res);
+
+
 
     //Run test
     const createTestCafe = require('testcafe');
@@ -151,8 +161,32 @@ app.post('/tests', async (req, res) => {
         })
         .then(() => {
             console.log("sending test requests");
-            res.send(setupLicense(req, res));
-        });
+            res.send(setupLicense(req, res).then(() => {
+                //update data base with the test report
+                (async function getReport() {
+                    let rawdata = fs.readFileSync('reports.json');
+                    let student = JSON.parse(rawdata);
+
+                    return student;
+                })().then((parsedReport) => {
+                    global.duration = Math.round(parsedReport.fixtures[0].tests[0].durationMs / 1000) + " seconds";
+                    const testId = parsedReport.fixtures[0].tests[0].meta.testId;
+                    const stringifiedReport = JSON.stringify(parsedReport);
+
+                    const query = { id: testId, status: "pending...", duration: "pending...", fullReport: "pending..." };
+                    const update = { status: parsedReport.passed, duration: global.duration, fullReport: stringifiedReport };
+
+
+                    Tests.findOneAndUpdate(query, { $set: update }, { runValidators: true }, function (err, doc) {
+                        if (err)
+                            console.log(err)
+                        console.log("Successfuly updated Database");
+                    });
+                }).then(() => {
+                    console.log("Test is over....");
+                })
+            }));
+        })
 });
 
 
