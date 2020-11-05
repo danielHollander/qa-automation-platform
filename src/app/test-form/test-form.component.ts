@@ -85,12 +85,24 @@ export class TestFormComponent implements OnInit {
       let dataObject = {};
       dataObject["name"] = event.currentTarget[0].value;
       for (var i = 0; i < event.currentTarget.length; i++) {
-        if (event.currentTarget[i].type == "select-one" && event.currentTarget[i] != "custom") {
+        if (event.currentTarget[i].type == "select-one" && event.currentTarget[i].id != "custom") {
           if (typeof dataObject[event.currentTarget[i].value] == "undefined") {
             dataObject[event.currentTarget[i].value] = [];
             dataObject[event.currentTarget[i].value].push(event.currentTarget[i + 1].value);
           } else
             dataObject[event.currentTarget[i].value].push(event.currentTarget[i + 1].value);
+        }
+
+        if (event.currentTarget[i].id == "custom") {
+          dataObject[event.currentTarget[i].id] = [];
+          var str = event.currentTarget[i + 1].parentElement.innerText.slice(event.currentTarget[i + 1].parentElement.innerText.indexOf("t"));
+          var newStr = '';
+          for (var j = 0; j < str.length; j++) {
+            if (!(str[j] == '\n' || str[j] == '\r'))
+              newStr += str[j];
+          }
+          newStr = newStr.replace(/[ ]/g, "")
+          dataObject[event.currentTarget[i].id].push(newStr);
         }
       }
       //Always add a date to the test request
@@ -100,6 +112,8 @@ export class TestFormComponent implements OnInit {
       //Always add an ID to each test
       //If this is the first test created mark it as "1"
       dataObject["id"] = typeof this.testsData[this.testsData.length - 1] != "undefined" ? this.testsData.length + 1 : 1;
+      dataObject["multipleTestNumber"] = typeof dataObject["multipleTestNumber"] != "undefined" ? "" : 1;
+
       console.log(dataObject);
       return dataObject;
     }
@@ -107,3 +121,6 @@ export class TestFormComponent implements OnInit {
     this.http.post<any>('http://localhost:3001/tests', data, {}).subscribe();
   }
 }
+
+
+

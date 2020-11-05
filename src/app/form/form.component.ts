@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-form',
@@ -6,6 +6,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./form.component.css']
 })
 export class FormComponent implements OnInit {
+  //For test input option values
   testsOptions = [
     "Click",
     "Navigaton",
@@ -14,6 +15,7 @@ export class FormComponent implements OnInit {
     "Type Text",
     "Browser Log",
     "Custom",
+    "Multiple Tests",
   ]
 
   testsValues = [
@@ -24,6 +26,7 @@ export class FormComponent implements OnInit {
     "typeText",
     "getBrowserConsoleMessages",
     "custom",
+    "multipleTests"
   ]
   constructor() { }
 
@@ -64,5 +67,53 @@ export class FormComponent implements OnInit {
 
     this.sendToParent();
     console.log(this.componentsArr);
+  }
+
+  //For code editor and mutiple tests
+  multipleTests = false;
+  customTest = false;
+  onCustomTestChange = (event) => {
+    if (event.target != null) {
+      if (event.target.value == "custom") {
+        this.customTest = true;
+        this.multipleTests = false;
+        console.log(this.customTest);
+      }
+      if (event.target.value == "multipleTests") {
+        this.multipleTests = true;
+        this.customTest = false;
+        console.log(this.customTest);
+      }
+      if (event.target.value !== "multipleTests" && event.target.value !== "custom") {
+        this.customTest = false;
+        this.multipleTests = false;
+      }
+    }
+  }
+
+  //Code editor text
+  text: string = "";
+  options: any = { maxLines: 1000, printMargin: false };
+
+  //Log changes in custom code
+  onCodeChange(code) {
+    console.log(code);
+  }
+
+  @ViewChild('editor') editor;
+  ngAfterViewInit() {
+    this.editor.setTheme("eclipse");
+
+    this.editor.getEditor().setOptions({
+      enableBasicAutocompletion: true
+    });
+
+    this.editor.getEditor().commands.addCommand({
+      name: "showOtherCompletions",
+      bindKey: "Ctrl+L",
+      exec: function (editor) {
+
+      }
+    })
   }
 }

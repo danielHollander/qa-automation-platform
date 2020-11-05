@@ -132,7 +132,8 @@ main {
 
 
 div.form-group,
-#test-params {
+#test-params,
+#test-input {
   display: grid;
   grid-row-gap: 15px;
 }
@@ -362,9 +363,6 @@ div.fa.fa-check-circle.text-success {
   overflow: auto;
 }
 
-@media screen and (max-width: 700px) {
-
-  .popup {
-    width: 70%;
-  }
+.table thead th {
+  vertical-align: middle;
 }

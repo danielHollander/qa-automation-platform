@@ -1,12 +1,24 @@
 <div class="form-group">
     <div id="test-params">
         <label class="label label-default" >Select test Parameters</label>
-        <select class="form-control" id="tests" required>
-            <option *ngFor="let tests of testsOptions; let i = index;" [value] = testsValues[i]>{{tests}}</option>
+        <select class="form-control" id="tests" required (change)="onCustomTestChange($event)">
+            <option *ngFor="let tests of testsOptions; let i = index;" [value] = testsValues[i] >{{tests}}</option>
         </select>
-        <div class="form-group">
+        <div id="test-input">
             <label class="label label-default" >Type in your Query</label>
-            <input type="text" class="form-control" id="custom">
+            <input type="text" class="form-control" id="custom" [hidden] ="customTest" [hidden] ="multipleTests">
+            <ace-editor
+                [(text)]="text"
+                [hidden] ="!customTest"
+                [hidden] ="!multipleTests"
+                (textChanged)="onCodeChange($event)"
+                [value] = "text"
+                [theme]="'eclipse'"
+                [autoUpdateContent]="true" 
+                [options]="options"
+                #editor style="min-height: 200px; width:100%; overflow: auto; border: 1px solid lightgray;">
+            </ace-editor>
+             <input type="number" class="form-control" id="multiple-tests-counter" style="width: fit-content;" [hidden] ="!multipleTests">
         </div>
     </div>
     <div id="buttons">
