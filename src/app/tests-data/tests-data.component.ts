@@ -53,6 +53,8 @@ export class TestsDataComponent implements OnInit {
                   return "Browser Console Message Parameter"
                 case "custom":
                   return "Custom Test"
+                case "multipleTests":
+                  return "Multiple Tests"
                 case "status":
                   return "Test Status"
                 case "duration":
@@ -89,8 +91,9 @@ export class TestsDataComponent implements OnInit {
         "typeText",
         "getBrowserConsoleMessages",
         "custom",
+        "multipleTests",
         "status",
-        "duration"
+        "duration",
       ];
       const filtered = Object.keys(object)
         .filter(key => allowed.includes(key))

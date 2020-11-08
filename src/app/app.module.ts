@@ -5,7 +5,6 @@ import { CommonModule } from "@angular/common";
 import { FormGroup, FormControl } from '@angular/forms';
 import { AceEditorModule } from 'ngx-ace-editor-wrapper';
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DataComponent } from './data/data.component';
@@ -17,8 +16,12 @@ import { TestFormComponent } from './test-form/test-form.component';
 import { TestsDataComponent } from './tests-data/tests-data.component';
 import { FormComponent } from './form/form.component';
 import { LoginComponent } from './login/login.component';
+import { EditorComponent } from './editor/editor.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpConfigInterceptor } from './intercepter/httpconfig.interceptor';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,8 @@ import { LoginComponent } from './login/login.component';
     TestsDataComponent,
     FormComponent,
     LoginComponent,
+    EditorComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -38,7 +43,9 @@ import { LoginComponent } from './login/login.component';
     ReactiveFormsModule,
     FormsModule,
     CommonModule,
-    AceEditorModule
+    AceEditorModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

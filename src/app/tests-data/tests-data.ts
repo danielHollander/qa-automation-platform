@@ -9,5 +9,6 @@ export interface Tests {
     eql: String,
     getBrowserConsoleMessages: String,
     custom: String
-    fullReport: String
+    fullReport: String,
+    multipleTests: String,
 }

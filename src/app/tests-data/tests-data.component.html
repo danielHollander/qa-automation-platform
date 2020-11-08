@@ -1,5 +1,5 @@
 <div class="table-responsive">
-<table class="table table-striped table-sm">
+<table class="table table-striped table-sm" id="tests-data">
     <thead>
         <th *ngFor="let header of headers; index as i" > {{headers[i]}}</th>
     </thead>
@@ -8,12 +8,12 @@
         <!-- This is stupid-  Daniel please think of a whole new logic for this -->
           <td *ngFor ="let c of row; let h = index;">
             <div class = "fa " [ngClass]="{
-              'fa-check-circle text-success': c > 0 && 10 == h,
-              'fa-times-circle text-danger': c == 0 && 10 == h,
-              'pending' : c=='pending...' && 10 == h,
+              'fa-check-circle text-success': c > 0 && 11 == h,
+              'fa-times-circle text-danger': c == 0 && 11 == h,
+              'pending' : c=='pending...' && 11 == h,
               'regular': c !== row[row.length-2]
             }">
-            <span *ngIf = "h !== 10 || c == 'pending...'"> {{c}} </span>
+            <span *ngIf = "h !== 11 || c == 'pending...'"> {{c}} </span>
             </div>
           </td>
        </tr>

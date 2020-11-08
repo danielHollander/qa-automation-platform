@@ -1,4 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import 'brace';
+import 'brace/mode/sql';
+import { AceEditorComponent } from 'ngx-ace-editor-wrapper';
 
 @Component({
   selector: 'app-form',
@@ -18,7 +21,7 @@ export class FormComponent implements OnInit {
     "Multiple Tests",
   ]
 
-  testsValues = [
+  @Input("FormToEditor") testsValues = [
     "click",
     "navigateTo",
     "expect",
@@ -44,7 +47,7 @@ export class FormComponent implements OnInit {
   }
 
   @Input('MasterToChild') componentsArr = [{ component: '<app-form></app-form>', id: 0 }];
-
+  editorsArr = [{ component: '<app-editor></app-editor>', id: 0 }];
 
   handleIncrement(event: any) {
     console.log("increasing!");
@@ -70,19 +73,22 @@ export class FormComponent implements OnInit {
   }
 
   //For code editor and mutiple tests
-  multipleTests = false;
-  customTest = false;
+  @Input("testsToEditor") multipleTests = false;
+  @Input("customToEditor") customTest = false;
   onCustomTestChange = (event) => {
     if (event.target != null) {
       if (event.target.value == "custom") {
         this.customTest = true;
         this.multipleTests = false;
-        console.log(this.customTest);
+        this.editorsArr = [{ component: '<app-editor></app-editor>', id: 0 }];
+        console.log("custom test " + this.customTest);
+        console.log("multiple tests " + this.multipleTests);
       }
       if (event.target.value == "multipleTests") {
         this.multipleTests = true;
         this.customTest = false;
-        console.log(this.customTest);
+        console.log("multiple tests " + this.multipleTests);
+        console.log("custom test " + this.customTest);
       }
       if (event.target.value !== "multipleTests" && event.target.value !== "custom") {
         this.customTest = false;
@@ -90,30 +96,8 @@ export class FormComponent implements OnInit {
       }
     }
   }
-
-  //Code editor text
-  text: string = "";
-  options: any = { maxLines: 1000, printMargin: false };
-
-  //Log changes in custom code
-  onCodeChange(code) {
-    console.log(code);
-  }
-
-  @ViewChild('editor') editor;
-  ngAfterViewInit() {
-    this.editor.setTheme("eclipse");
-
-    this.editor.getEditor().setOptions({
-      enableBasicAutocompletion: true
-    });
-
-    this.editor.getEditor().commands.addCommand({
-      name: "showOtherCompletions",
-      bindKey: "Ctrl+L",
-      exec: function (editor) {
-
-      }
-    })
+  editorToForm = (arr) => {
+    this.editorsArr = arr;
+    console.log(this.editorsArr);
   }
 }
