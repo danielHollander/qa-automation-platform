@@ -2,22 +2,20 @@ const cors = require('cors');
 const express = require('express');
 const app = express();
 const router = express.Router();
-const reports = require('./reports.json');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const fetch = require('node-fetch');
 const Bluebird = require('bluebird');
-const { stringify } = require('querystring');
 const url = 'http://localhost:3001/tests';
-const users = require('./users');
-const bodyParser = require('body-parser');
-const morgan = require("morgan");
 fetch.Promise = Bluebird;
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-require("./users/db")(app);
+var nodemon = require('nodemon');
 const userRoutes = require("./users/userRoute"); //bring in our user routes
-
+var chokidar = require('chokidar');
+var { restart } = require('nodemon');
+var watcher = chokidar.watch('.')
+require("./users/db")(app);
+const http = require('http');
+const server = http.createServer(app);
 
 
 //General data
@@ -55,6 +53,12 @@ const testSchema = new mongoose.Schema({
     fullReport: [String],
 });
 
+const commentsSchema = new mongoose.Schema({
+    id: Number,
+    comment: String,
+    date: String
+});
+
 
 mongoose.connect("mongodb://localhost/playground", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }).then(() =>
     console.log("Connected to mongoose tests data base!")
@@ -62,6 +66,7 @@ mongoose.connect("mongodb://localhost/playground", { useNewUrlParser: true, useU
 
 const Data = mongoose.model('mainData', dataSchema);
 const Tests = mongoose.model('mainTests', testSchema);
+const Comments = mongoose.model('mainComments', commentsSchema);
 
 app.use(cors())
 app.use(express.urlencoded({ extended: true }));
@@ -104,22 +109,17 @@ app.post('/tests', async (req, res) => {
     }
     createTest(req, res);
 
-
-
     //Run test
     const createTestCafe = require('testcafe');
 
     const setupLicense = async (req, res) => {
-
         const testcafe = await createTestCafe('localhost', 1337, 1338);
         const runner = testcafe.createRunner();
         const remoteConnection = await testcafe.createBrowserConnection();
 
-        let data = (body) => {
-            return body;
-        }
-
         try {
+            console.log("data is")
+            console.log();
             const test = await runner
                 .src(['QA-test.js'])
                 .browsers(['chrome'])
@@ -127,7 +127,7 @@ app.post('/tests', async (req, res) => {
                     name: 'json',
                     output: './reports.json'
                 }])
-                .run()
+                .run();
         } finally {
             console.log("Closing test after completion");
             await testcafe.close();
@@ -169,36 +169,70 @@ app.post('/tests', async (req, res) => {
                 }
             });
         })
-        .then(() => {
+        .then((req) => {
             console.log("sending test requests");
-            res.send(setupLicense(req, res).then(() => {
-                //update data base with the test report
-                (async function getReport() {
-                    let rawdata = fs.readFileSync('reports.json');
-                    let student = JSON.parse(rawdata);
+            res.send(setupLicense(req, res)
+                .then(() => {
+                    // update data base with the test report
+                    (async function getReport() {
+                        let rawdata = fs.readFileSync('reports.json');
+                        let student = JSON.parse(rawdata);
 
-                    return student;
-                })().then((parsedReport) => {
-                    global.duration = Math.round(parsedReport.fixtures[0].tests[0].durationMs / 1000) + " seconds";
-                    const testId = parsedReport.fixtures[0].tests[0].meta.testId;
-                    const stringifiedReport = JSON.stringify(parsedReport);
+                        return student;
+                    })().then((parsedReport) => {
+                        global.duration = Math.round(parsedReport.fixtures[0].tests[0].durationMs / 1000) + " seconds";
+                        const testId = parsedReport.fixtures[0].tests[0].meta.testId;
+                        const stringifiedReport = JSON.stringify(parsedReport);
 
-                    const query = { id: testId, status: "pending...", duration: "pending...", fullReport: "pending..." };
-                    const update = { status: parsedReport.passed, duration: global.duration, fullReport: stringifiedReport };
+                        const query = { id: testId, status: "pending...", duration: "pending...", fullReport: "pending..." };
+                        const update = { status: parsedReport.passed, duration: global.duration, fullReport: stringifiedReport };
 
 
-                    Tests.findOneAndUpdate(query, { $set: update }, { runValidators: true }, function (err, doc) {
-                        if (err)
-                            console.log(err)
-                        console.log("Successfuly updated Database");
-                    });
-                }).then(() => {
-                    console.log("Test is over....");
-                })
-            }));
+                        Tests.findOneAndUpdate(query, { $set: update }, { runValidators: true }, function (err, doc) {
+                            if (err)
+                                console.log(err)
+                            console.log("Successfuly updated Database");
+                        })
+                    })
+                        .then(async () => {
+                            console.log("Test is over....");
+                            // One - liner for current directory
+                            console.log("This is pid " + process.pid);
+                            //This is to restart the nodemon platform
+                            const spamJson = JSON.stringify({});
+                            console.log("Spamming json Spam File");
+                            fs.writeFileSync('spam.json', spamJson, (err) => {
+                                if (err) {
+                                    throw err;
+                                }
+                                console.log("Spammed successfully");
+                            });
+                        })
+                }));
         })
 });
 
+
+//Detect comments
+app.get('/comments', async (req, res) => {
+    const comments = await Comments.find().sort('id')
+    res.send(comments);
+});
+
+app.post('/comments', async (req, res) => {
+    //Update DB
+    async function createComment(req, res) {
+        const comment = new Comments({
+            id: req.body.id,
+            comment: req.body.comment,
+            date: req.body.date
+        });
+        const result = await comment.save();
+        console.log("New comment was sent....")
+        console.log(result);
+    }
+    createComment(req, res);
+});
 
 app.put('/:id', async (req, res) => {
     const data = await Data.findByIdAndUpdate('req.params.id', { id: req.body.id }, {

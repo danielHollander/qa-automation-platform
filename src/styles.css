@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~quill/dist/quill.snow.css";
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.bubble.css';
+
 body {
   font-size: .875rem;
 }
@@ -312,6 +316,14 @@ div.fa.fa-check-circle.text-success {
   cursor: pointer;
 }
 
+.id {
+  cursor: pointer;
+}
+
+.id:hover {
+  color: #7b68ee;
+}
+
 .overlay {
   position: fixed;
   top: 0;
@@ -327,11 +339,26 @@ div.fa.fa-check-circle.text-success {
 
 
 .popup {
-  margin: 70px auto;
+  margin: 30px auto;
   padding: 20px;
   background: #fff;
   border-radius: 5px;
   width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.test-full-details {
+  width: calc(100vw - 50px);
+  height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: row;
+  margin: 20px auto;
+  padding: 40px 0px;
+  padding-top: 40px;
+  padding-bottom: 0px;
+  background: #fff;
+  border-radius: 5px;
   position: relative;
   transition: all 5s ease-in-out;
 }
@@ -353,7 +380,19 @@ div.fa.fa-check-circle.text-success {
   color: #333;
 }
 
-.popup .close:hover {
+.test-full-details .close {
+  position: absolute;
+  top: 0px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.popup .close:hover,
+.test-full-details .close:hover {
   color: #06D85F;
   cursor: pointer;
 }
@@ -454,4 +493,423 @@ body {
 body.login nav.navbar,
 body.login nav#sidebarMenu {
   display: none !important;
+}
+
+.test-header {
+  border-bottom: 1px solid #dedede;
+  display: flex;
+  align-items: center;
+  padding: 20px 30px;
+  overflow: visible;
+  border-top: 1px solid #dedede;
+  min-height: 80px;
+}
+
+.test-status {
+  margin: 0 30px 0 0;
+  text-align: center;
+  transition: .1s;
+  background: 0 0;
+  border: 1px solid currentColor;
+}
+
+.user-name {
+  margin: 0 20px 0 0;
+  color: #343434;
+  font-family: "Proxima Nova",
+    arial,
+    serif;
+  font-size: 14px;
+}
+
+.test-name {
+  top: 0;
+  padding: 10px 0;
+  z-index: 100;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0), #fff 10px, #fff);
+  display: flex;
+  position: relative;
+  resize: none;
+  width: calc(100% - 20px);
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: .1s;
+  overflow: hidden;
+  font-weight: 300;
+  font-size: 28px;
+  line-height: 34px;
+  color: #343434;
+  background: 0 0;
+  border: none;
+  flex-grow: 1;
+  resize: none;
+  overflow: visible;
+  pointer-events: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.right-column {
+  width: 55%;
+  border-right: 1px solid #dedede;
+}
+
+.comment-column {
+  background: #fbfbfb;
+  border-radius: 0 0 10px;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  width: 45%;
+}
+
+.date-duration-container {
+  display: flex;
+  align-items: center;
+  padding: 20px 30px;
+  overflow: visible;
+  justify-content: space-between;
+  border-bottom: 1px solid #dedede;
+  border-top: 1px solid #dedede;
+  min-height: 80px;
+}
+
+.date,
+.duration {
+  margin: 0 0 3px;
+  font: 500 10px "Gotham Pro",
+    "Proxima Nova",
+    arial,
+    serif;
+  color: rgba(119, 119, 119, .5);
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  flex-direction: column;
+}
+
+.tests-params-title {
+  font-weight: 600;
+}
+
+.test-specs {
+  display: grid;
+  max-height: 240px;
+}
+
+.test-details {
+  display: grid;
+  grid-template-rows: 60px 300px;
+  padding-left: 20px;
+}
+
+.title {
+  font: 300 20px "Proxima Nova",
+    arial,
+    serif;
+}
+
+.Success {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+  width: fit-content;
+  font-family: -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji";
+  font-weight: 600;
+  padding: 5px;
+  border-radius: 15px;
+}
+
+.Failed {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+  width: fit-content;
+  font-family: -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji";
+  font-weight: 600;
+  padding: 5px;
+  border-radius: 15px;
+}
+
+.report {
+  margin-right: 20px;
+  max-height: 105px;
+  overflow-y: auto;
+}
+
+
+.comment-body {
+  flex-direction: column;
+  overflow: hidden;
+  will-change: transform;
+  height: 705px;
+  width: 100%;
+  padding: 30px;
+  box-sizing: border-box !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  display: flex;
+
+}
+
+.comment-type {
+  padding: 5px 0 0 20px;
+  font-style: normal;
+  font: 14px "Gotham Pro",
+    "Proxima Nova",
+    arial,
+    serif;
+  color: rgba(52, 52, 52, .5);
+  min-height: 50px;
+  max-height: 300px;
+  width: 100%;
+  background: #fff;
+  padding: 10px 10px;
+  border-color: white;
+  border-width: unset;
+  border-style: hidden;
+}
+
+.test-header-top {
+  height: 40px;
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: #eff0f3;
+}
+
+
+.comment-box {
+  height: fit-content;
+}
+
+.comment-box:focus {
+  color: #000;
+  height: 80px;
+}
+
+div.ql-toolbar.ql-snow {
+  display: none;
+}
+
+.ql-container {
+  border: none !important;
+}
+
+.comment-box form {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, .08), 0 10px 25px rgba(0, 0, 0, .05);
+}
+
+.comment-body>.comment {
+  cursor: default;
+  --theme-main-color: #7b68ee;
+  --theme-main-color-dark: #5b43ea;
+  --theme-main-color-light: #dfdbfb;
+  --theme-main-header-color: #7c4dff;
+  --global-font-support: -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    Helvetica,
+    sans-serif;
+  --global-second-font-support: -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    Helvetica,
+    sans-serif;
+  box-sizing: inherit;
+  color: #343434;
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  border-radius: 8px;
+  position: relative;
+  min-width: 0;
+  background: #fff;
+  border: 1px solid #dedede;
+  font: 500 13px "Gotham Pro",
+    "Proxima Nova",
+    arial,
+    serif;
+  margin-bottom: 20px;
+}
+
+.comment-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 10px 12px 0;
+  border-radius: 10px 10px 0 0;
+}
+
+.comment-text {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: block;
+  flex-grow: 1;
+  padding: 10px 12px 15px;
+  font: 400 14px/20px "Gotham Pro",
+    "Proxima Nova",
+    arial,
+    serif;
+  color: rgba(52, 52, 52, .8);
+}
+
+
+:target {
+  border-radius: 3px;
+  animation: highlight 1000ms ease-out;
+}
+
+@keyframes highlight {
+  0% {
+    background-color: red;
+  }
+
+  100% {
+    background-color: white;
+  }
+}
+
+.comment-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 10px 12px 0;
+  border-radius: 10px 10px 0 0;
+  justify-content: space-between;
+}
+
+.comment-header>.comment-user {
+  cursor: default;
+  --theme-main-color: #7b68ee;
+  --theme-main-color-dark: #5b43ea;
+  --theme-main-color-light: #dfdbfb;
+  --theme-main-header-color: #7c4dff;
+  --global-font-support: -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    Helvetica,
+    sans-serif;
+  --global-second-font-support: -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    Helvetica,
+    sans-serif;
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+  word-break: break-word;
+  word-wrap: break-word;
+  font-size: 13px;
+  font-family: var(--global-font-support);
+  color: #858585;
+}
+
+.comment-header>.comment-date {
+  cursor: default;
+  --theme-main-color: #7b68ee;
+  --theme-main-color-dark: #5b43ea;
+  --theme-main-color-light: #dfdbfb;
+  --theme-main-header-color: #7c4dff;
+  --global-font-support: -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    Helvetica,
+    sans-serif;
+  --global-second-font-support: -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    Helvetica,
+    sans-serif;
+  box-sizing: inherit;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  font: 400 11px "Gotham Pro",
+    "Proxima Nova",
+    arial,
+    serif;
+  margin: 0 0 0 10px;
+  color: #858585;
+}
+
+.posted {
+  opacity: 1;
+
+}
+
+.in-progress {
+  transition: all 0.2s ease-in-out;
+  animation-name: popin;
+  animation-duration: 0.3s;
+  animation-timing-function: easeout;
+}
+
+
+@keyframes popin {
+  0% {
+    opacity: 0;
+  }
+
+  75% {
+    opacity: 0.4;
+    animation-timing-function: easeout;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.comment-box>form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+}
+
+.ql-editor {
+  height: fit-content;
 }

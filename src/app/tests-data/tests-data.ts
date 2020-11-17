@@ -11,4 +11,6 @@ export interface Tests {
     custom: String
     fullReport: String,
     multipleTests: String,
+    status: String,
+    duration: String,
 }

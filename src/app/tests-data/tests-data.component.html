@@ -8,12 +8,13 @@
         <!-- This is stupid-  Daniel please think of a whole new logic for this -->
           <td *ngFor ="let c of row; let h = index;">
             <div class = "fa " [ngClass]="{
-              'fa-check-circle text-success': c > 0 && 11 == h,
-              'fa-times-circle text-danger': c == 0 && 11 == h,
-              'pending' : c=='pending...' && 11 == h,
-              'regular': c !== row[row.length-2]
+              'fa-check-circle text-success': c > 0 && 3 == h,
+              'fa-times-circle text-danger': c == 0 && 3 == h,
+              'pending' : c=='pending...' && 3 == h,
+              'regular': c !== row[row.length-2],
+              'id': 0==h
             }">
-            <span *ngIf = "h !== 11 || c == 'pending...'"> {{c}} </span>
+            <span *ngIf = "h !== 3 || c == 'pending...'"> {{c}} </span>
             </div>
           </td>
        </tr>
@@ -27,5 +28,88 @@
 		<div class="content">
 		  {{testFullReport}}
 		</div>
-	</div>
+  </div>
+</div>
+<div class="overlay" *ngIf="testPopUp" (click)="clearComment($event)">
+  <div class="test-full-details" [value]="testId">
+    <div class="test-header-top">
+      <a class="close" (click)="testPopUp = false; sendComment = true; canAnimate = false">&times;</a>
+    </div>
+    <div class="right-column">
+    <div class="test-header">  
+      <div class="test-status" [ngClass] = testStatus> {{testStatus}} </div>
+      <div class="user-name"> User name 
+        <img class="user-logo" />
+      </div>
+    </div>
+    <div class="test-details">
+        <div class="test-name">{{testName}}</div>
+        <div class="test-specs"> 
+          <div class="tests-params-title title">
+            Test Params:
+          </div>
+          <div class="click">
+            Click Test: {{testSpecs[0].click}}
+          </div>
+          <div class="custom">
+            Custom Test: {{testSpecs[0].custom}}
+          </div>
+          <div class="equal">
+            Equal to test:{{testSpecs[0].eql}}
+          </div>
+          <div class="browser-console">
+            Get Browser Console Messages Test:{{testSpecs[0].getBrowserConsoleMessages}}
+          </div>
+          <div class="expect">
+            Expect this Result Test: {{testSpecs[0].expect}}
+          </div>
+          <div class="multipleTests">
+            Multiple Tests: {{testSpecs[0].multipleTests}}
+          </div>   
+          <div class="navigtaion">
+            Navigate To Test: {{testSpecs[0].navigateTo}}
+          </div>
+        </div>
+        <div class="test-full-report"> 
+          <div class="full-report-title title">
+            Full Test Report
+          </div>
+          <div class="report" style="background-color: #e9ecef; border:1px solid #a3a3a3; padding: .375rem .75rem;">
+            {{testFullReport}}
+          </div> 
+        </div>
+        <div class="test-attachments title"> Attachments </div>
+      </div>
+    </div>
+      <div class="comment-column">
+        <div class="date-duration-container">
+          <div class="date"> Created 
+            <span>{{testDate}}</span>
+          </div>
+          <div class="duration"> Duration 
+            <span>{{testDuration}}</span>
+          </div>
+        </div>
+        <div class="comment-body">
+            <div class="comment" *ngFor="let comment of commentsArr; index as i" [ngClass]="{'posted': canAnimate == false, 'in-progress': canAnimate == true && commentsArr[i] == commentsArr[commentsArr.length - 1]}">
+              <div class="comment-header">
+                <div class="comment-user">User name Commented</div>
+                <div class="comment-date">{{commentsArr[i].date}}</div>
+              </div>
+              <div class="comment-text">{{commentsArr[i].comment}}</div>
+            </div>
+          </div>
+          <div class="comment-box">
+            <form (ngSubmit)="onSubmit($event)" (onClick) ="createComment($event)">
+              <quill-editor (onEditorCreated)="editorCreated($event)"></quill-editor>
+              <div class="input-container">
+              <div class="comment-toolbar">
+                <input type="submit" value="Comment" class="btn btn-primary" [hidden]="sendComment"/> 
+              </div> 
+              </div> 
+            </form>
+          </div>
+      </div>
+  </div>
+
 </div>

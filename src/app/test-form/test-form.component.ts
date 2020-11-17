@@ -96,8 +96,7 @@ export class TestFormComponent implements OnInit {
         }
         //Handle custom test script and make sure the input will be a one liner
         if (event.currentTarget[i].classList.value == "ace_text-input" && event.currentTarget[i].parentElement.hidden == false) {
-          debugger;
-          dataObject[event.currentTarget[i-1].id] = dataObject[event.currentTarget[i-1].id] || [];
+          dataObject[event.currentTarget[i - 1].id] = dataObject[event.currentTarget[i - 1].id] || [];
           var str = event.currentTarget[i].parentElement.innerText.slice(event.currentTarget[i].parentElement.innerText.indexOf("t"));
           var newStr = '';
           for (var j = 0; j < str.length; j++) {
@@ -105,7 +104,7 @@ export class TestFormComponent implements OnInit {
               newStr += str[j];
           }
           newStr = newStr.replace(/[ ]/g, "")
-          dataObject[event.currentTarget[i-1].id].push(newStr);
+          dataObject[event.currentTarget[i - 1].id].push(newStr);
         }
       }
       //Always add a date to the test request
