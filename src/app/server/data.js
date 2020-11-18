@@ -16,7 +16,10 @@ var watcher = chokidar.watch('.')
 require("./users/db")(app);
 const http = require('http');
 const server = http.createServer(app);
-
+const crypto = require("crypto");
+const path = require("path");
+const multer = require("multer");
+const GridFsStorage = require("multer-gridfs-storage");
 
 //General data
 const dataSchema = new mongoose.Schema({
@@ -59,6 +62,10 @@ const commentsSchema = new mongoose.Schema({
     date: String
 });
 
+const mediaSchema = new mongoose.Schema({
+    img: { data: Buffer, contentType: String }
+})
+
 
 mongoose.connect("mongodb://localhost/playground", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }).then(() =>
     console.log("Connected to mongoose tests data base!")
@@ -67,6 +74,7 @@ mongoose.connect("mongodb://localhost/playground", { useNewUrlParser: true, useU
 const Data = mongoose.model('mainData', dataSchema);
 const Tests = mongoose.model('mainTests', testSchema);
 const Comments = mongoose.model('mainComments', commentsSchema);
+const Media = mongoose.model('mainMedia', mediaSchema);
 
 app.use(cors())
 app.use(express.urlencoded({ extended: true }));
@@ -245,11 +253,124 @@ app.put('/:id', async (req, res) => {
 })
 
 
-module.exports = mongoose.model('mainTests', testSchema);
+//Upload media
+app.set("view engine", "ejs");
+
+
+// connection
+const mongoURI = "mongodb://localhost/playground";
+const conn = mongoose.createConnection(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+// init gfs
+let gfs;
+conn.once("open", () => {
+    // init stream
+    gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+        bucketName: "uploads"
+    });
+});
+// Storage
+const storage = new GridFsStorage({
+    url: mongoURI,
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if (err) {
+                    return reject(err);
+                }
+                const filename = buf.toString("hex") + path.extname(file.originalname);
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: "uploads"
+                };
+                resolve(fileInfo);
+            });
+        });
+    }
+});
+
+const upload = multer({
+    storage
+});
+
+app.get("/", (req, res) => {
+    res.render("index")
+})
+
+app.post("/upload", upload.single("file"), (req, res) => {
+    res.redirect("/");
+});
+
+app.get("/image/:filename", (req, res) => {
+    // console.log('id', req.params.id)
+    const file = gfs
+        .find({
+            filename: req.params.filename
+        })
+        .toArray((err, files) => {
+            if (!files || files.length === 0) {
+                return res.status(404).json({
+                    err: "no files exist"
+                });
+            }
+            gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+        });
+});
+app.get("/", (req, res) => {
+    if (!gfs) {
+        console.log("some error occured, check connection to db");
+        res.send("some error occured, check connection to db");
+        process.exit(0);
+    }
+    gfs.find().toArray((err, files) => {
+        // check if files
+        if (!files || files.length === 0) {
+            return res.render("index", {
+                files: false
+            });
+        } else {
+            const f = files
+                .map(file => {
+                    if (
+                        file.contentType === "image/png" ||
+                        file.contentType === "image/jpeg"
+                    ) {
+                        file.isImage = true;
+                    } else {
+                        file.isImage = false;
+                    }
+                    return file;
+                })
+                .sort((a, b) => {
+                    return (
+                        new Date(b["uploadDate"]).getTime() -
+                        new Date(a["uploadDate"]).getTime()
+                    );
+                });
+
+            return res.render("index", {
+                files: f
+            });
+        }
+    });
+});
+
+// files/del/:id
+// Delete chunks from the db
+app.post("/files/del/:id", (req, res) => {
+    gfs.delete(new mongoose.Types.ObjectId(req.params.id), (err, data) => {
+        if (err) return res.status(404).json({ err: err.message });
+        res.redirect("/");
+    });
+});
+
 
 app.use("/users", userRoutes);
 
 
+module.exports = mongoose.model('mainTests', testSchema);
 const port = process.env.PORT || 3001;
 app.listen(port, function () {
     console.log('Example app listening on port 3001!');

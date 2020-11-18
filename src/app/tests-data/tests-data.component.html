@@ -31,14 +31,14 @@
   </div>
 </div>
 <div class="overlay" *ngIf="testPopUp" (click)="clearComment($event)">
-  <div class="test-full-details" [value]="testId">
+  <div class="test-full-details" [id]=testId>
     <div class="test-header-top">
       <a class="close" (click)="testPopUp = false; sendComment = true; canAnimate = false">&times;</a>
     </div>
     <div class="right-column">
     <div class="test-header">  
       <div class="test-status" [ngClass] = testStatus> {{testStatus}} </div>
-      <div class="user-name"> User name 
+      <div class="user-name"> {{userName}}
         <img class="user-logo" />
       </div>
     </div>
@@ -78,7 +78,9 @@
             {{testFullReport}}
           </div> 
         </div>
-        <div class="test-attachments title"> Attachments </div>
+        <div class="test-attachments title"> Attachments 
+          <app-upload></app-upload>
+        </div>
       </div>
     </div>
       <div class="comment-column">
@@ -93,7 +95,7 @@
         <div class="comment-body">
             <div class="comment" *ngFor="let comment of commentsArr; index as i" [ngClass]="{'posted': canAnimate == false, 'in-progress': canAnimate == true && commentsArr[i] == commentsArr[commentsArr.length - 1]}">
               <div class="comment-header">
-                <div class="comment-user">User name Commented</div>
+                <div class="comment-user">{{userName}} Commented</div>
                 <div class="comment-date">{{commentsArr[i].date}}</div>
               </div>
               <div class="comment-text">{{commentsArr[i].comment}}</div>

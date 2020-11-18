@@ -26,6 +26,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpConfigInterceptor } from './intercepter/httpconfig.interceptor';
+import { UploadComponent } from './upload/upload.component';
 
 Quill.register(
   {
@@ -67,6 +68,7 @@ const quillConfig: QuillConfig = {
     FormComponent,
     LoginComponent,
     EditorComponent,
+    UploadComponent,
 
   ],
   imports: [

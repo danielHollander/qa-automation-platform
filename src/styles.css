@@ -913,3 +913,7 @@ div.ql-toolbar.ql-snow {
 .ql-editor {
   height: fit-content;
 }
+
+.comment-user {
+  color: #7b68ee;
+}

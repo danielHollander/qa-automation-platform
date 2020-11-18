@@ -5,6 +5,8 @@ import { HttpClient } from "@angular/common/http"
 import { Observable, Subscription } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { ChangeDetectionStrategy } from "@angular/core";
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { UserService } from '../services/user/user.service';
 
 interface Quill {
   getModule(moduleName: string);
@@ -16,7 +18,7 @@ interface Quill {
   styleUrls: ['./tests-data.component.css'],
 })
 export class TestsDataComponent implements OnInit {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private user: UserService, private router: Router) { }
   testsData: Tests[];
   commentsData: Comments[];
 
@@ -124,6 +126,8 @@ export class TestsDataComponent implements OnInit {
   async ngOnInit() {
     this.getDataFromServer();
     this.getCommentsDataFromServer();
+    this.getProtectedData();
+
     //See if we can run this only on click and clear it after
     //Is running it with observable is a better approach? 
     //Clear the interval?
@@ -264,6 +268,7 @@ export class TestsDataComponent implements OnInit {
     for (var i = 0; i < commentBoxArr.length; i++) {
       commentBoxArr[i].addEventListener("click", this.showComment);
     };
+
   }
 
   quill: Quill;
@@ -284,9 +289,9 @@ export class TestsDataComponent implements OnInit {
   onSubmit = (event) => {
     this.canAnimate = true;
     console.log(event.target.innerText);
-    let _id = document.querySelector<HTMLElement>('.test-full-details').value
+    let _id = parseInt(document.querySelector<HTMLElement>('.test-full-details').id);
 
-    let commentsData = { id: _id, comment: event.target.innerText, date: (new Date).toUTCString() };
+    let commentsData = { id: _id, comment: event.target.innerText, date: (new Date()).toUTCString(), user: this.userName };
     this.commentsArr.push(commentsData)
     this.http.post<any>('http://localhost:3001/comments', commentsData, {}).subscribe();
   }
@@ -294,5 +299,13 @@ export class TestsDataComponent implements OnInit {
   showComment = (event) => {
     event.stopPropagation();
     this.sendComment = false;
+  }
+
+  userName;
+  getProtectedData() {
+    this.user.getProtectedData().subscribe((user: any) => {
+      this.userName = user[0].name;
+      console.log(this.userName);
+    });
   }
 }
