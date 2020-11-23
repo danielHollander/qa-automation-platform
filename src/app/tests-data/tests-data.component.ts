@@ -144,7 +144,7 @@ export class TestsDataComponent implements OnInit {
         this.commentsData = comments;
         console.log(comments);
       });
-    }, 10000);
+    }, 1000000);
   }
 
 

@@ -7,7 +7,7 @@ import { AceEditorModule } from 'ngx-ace-editor-wrapper';
 import { QuillConfig, QuillModule } from "ngx-quill";
 import * as Quill from "quill";
 import QuillBetterTable from "quill-better-table";
-
+import { FileDropDirective, FileSelectDirective } from 'ng2-file-upload';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,6 +27,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpConfigInterceptor } from './intercepter/httpconfig.interceptor';
 import { UploadComponent } from './upload/upload.component';
+import { ProgressComponent } from './progress/progress.component';
+import { DndDirective } from './dnd.directive';
+import { SafePipe } from './safe.pipe';
 
 Quill.register(
   {
@@ -69,7 +72,10 @@ const quillConfig: QuillConfig = {
     LoginComponent,
     EditorComponent,
     UploadComponent,
-
+    ProgressComponent,
+    DndDirective,
+    SafePipe,
+    // FileSelectDirective
   ],
   imports: [
     BrowserModule,

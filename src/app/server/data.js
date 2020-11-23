@@ -20,6 +20,12 @@ const crypto = require("crypto");
 const path = require("path");
 const multer = require("multer");
 const GridFsStorage = require("multer-gridfs-storage");
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json({ limit: '200mb' }));
+app.use(bodyParser.urlencoded({ limit: '200mb', extended: true }));
+app.use(bodyParser.text({ limit: '200mb' }));
+
 
 //General data
 const dataSchema = new mongoose.Schema({
@@ -45,7 +51,7 @@ const testSchema = new mongoose.Schema({
     name: [String],
     click: [String],
     navigateTo: [String],
-    typeText: [String],
+    typeText: [Array],
     expect: [String],
     eql: [String],
     getBrowserConsoleMessages: [String],
@@ -63,7 +69,11 @@ const commentsSchema = new mongoose.Schema({
 });
 
 const mediaSchema = new mongoose.Schema({
-    img: { data: Buffer, contentType: String }
+    progress: Number,
+    id: String,
+    filename: String,
+    chunkSize: Number,
+    src: String
 })
 
 
@@ -77,8 +87,6 @@ const Comments = mongoose.model('mainComments', commentsSchema);
 const Media = mongoose.model('mainMedia', mediaSchema);
 
 app.use(cors())
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 app.get('/api', async (req, res) => {
     const datas = await Data.find().sort('id');
@@ -95,7 +103,9 @@ app.get('/tests', async (req, res) => {
 
 app.post('/tests', async (req, res) => {
     //Update DB
+    // console.log(req);
     async function createTest(req, res) {
+        console.log(req.body);
         const test = new Tests({
             id: req.body.id,
             name: req.body.name,
@@ -227,6 +237,7 @@ app.get('/comments', async (req, res) => {
     res.send(comments);
 });
 
+
 app.post('/comments', async (req, res) => {
     //Update DB
     async function createComment(req, res) {
@@ -242,128 +253,31 @@ app.post('/comments', async (req, res) => {
     createComment(req, res);
 });
 
-app.put('/:id', async (req, res) => {
-    const data = await Data.findByIdAndUpdate('req.params.id', { id: req.body.id }, {
-        new: true,
-    })
 
-    const data1 = datas.find(c => c.id == parseInt(req.params.id));
-    data1.id = req.body.id;
-    res.send(data);
-})
-
-
-//Upload media
-app.set("view engine", "ejs");
-
-
-// connection
-const mongoURI = "mongodb://localhost/playground";
-const conn = mongoose.createConnection(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
-// init gfs
-let gfs;
-conn.once("open", () => {
-    // init stream
-    gfs = new mongoose.mongo.GridFSBucket(conn.db, {
-        bucketName: "uploads"
-    });
-});
-// Storage
-const storage = new GridFsStorage({
-    url: mongoURI,
-    file: (req, file) => {
-        return new Promise((resolve, reject) => {
-            crypto.randomBytes(16, (err, buf) => {
-                if (err) {
-                    return reject(err);
-                }
-                const filename = buf.toString("hex") + path.extname(file.originalname);
-                const fileInfo = {
-                    filename: filename,
-                    bucketName: "uploads"
-                };
-                resolve(fileInfo);
-            });
+app.post("/uploads", (req, res) => {
+    console.log(req.body);
+    //Update DB
+    async function createMedia(req, res) {
+        const media = new Media({
+            id: req.body.id,
+            comment: req.body.comment,
+            date: req.body.date,
+            progress: req.body.progress,
+            filename: req.body.filename,
+            chunkSize: req.body.chunkSize,
+            src: req.body.src
         });
+        const result = await media.save();
+        console.log("New comment was sent....")
+        console.log(result);
     }
+    createMedia(req, res);
 });
 
-const upload = multer({
-    storage
-});
-
-app.get("/", (req, res) => {
-    res.render("index")
-})
-
-app.post("/upload", upload.single("file"), (req, res) => {
-    res.redirect("/");
-});
-
-app.get("/image/:filename", (req, res) => {
-    // console.log('id', req.params.id)
-    const file = gfs
-        .find({
-            filename: req.params.filename
-        })
-        .toArray((err, files) => {
-            if (!files || files.length === 0) {
-                return res.status(404).json({
-                    err: "no files exist"
-                });
-            }
-            gfs.openDownloadStreamByName(req.params.filename).pipe(res);
-        });
-});
-app.get("/", (req, res) => {
-    if (!gfs) {
-        console.log("some error occured, check connection to db");
-        res.send("some error occured, check connection to db");
-        process.exit(0);
-    }
-    gfs.find().toArray((err, files) => {
-        // check if files
-        if (!files || files.length === 0) {
-            return res.render("index", {
-                files: false
-            });
-        } else {
-            const f = files
-                .map(file => {
-                    if (
-                        file.contentType === "image/png" ||
-                        file.contentType === "image/jpeg"
-                    ) {
-                        file.isImage = true;
-                    } else {
-                        file.isImage = false;
-                    }
-                    return file;
-                })
-                .sort((a, b) => {
-                    return (
-                        new Date(b["uploadDate"]).getTime() -
-                        new Date(a["uploadDate"]).getTime()
-                    );
-                });
-
-            return res.render("index", {
-                files: f
-            });
-        }
-    });
-});
-
-// files/del/:id
-// Delete chunks from the db
-app.post("/files/del/:id", (req, res) => {
-    gfs.delete(new mongoose.Types.ObjectId(req.params.id), (err, data) => {
-        if (err) return res.status(404).json({ err: err.message });
-        res.redirect("/");
-    });
+//Detect Media
+app.get('/uploads', async (req, res) => {
+    const media = await Media.find().sort('id')
+    res.send(media);
 });
 
 

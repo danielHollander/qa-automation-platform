@@ -601,7 +601,7 @@ body.login nav#sidebarMenu {
 
 .test-details {
   display: grid;
-  grid-template-rows: 60px 300px;
+  grid-template-rows: 60px 255px;
   padding-left: 20px;
 }
 
@@ -917,3 +917,5 @@ div.ql-toolbar.ql-snow {
 .comment-user {
   color: #7b68ee;
 }
+
+

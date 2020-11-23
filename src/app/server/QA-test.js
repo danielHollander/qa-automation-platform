@@ -13,8 +13,10 @@ const filteredData = Object.entries(dataSet[dataSet.length - 1]).filter(([key, v
 //Too expensive efficeny n^2
 filteredData.forEach(([key, value], index, arr) => {
     if (key == "typeText") {
-        for (var i = 0; i + 1 < arr[index][1].length; i++) {
-            testString += `['${key}']` + `('${value[i]}', '${value[i + 1]}')`;
+        debugger;
+        for (var i = 0; i + 1 < arr[index][1][0].length; i++) {
+            debugger;
+            testString += `['${key}']` + `('${value[0][i]}', '${value[0][i + 1]}')`;
         };
     }
 
@@ -28,7 +30,7 @@ filteredData.forEach(([key, value], index, arr) => {
             testArray.push(value[i]);
         }
     }
-    else {
+    if (key !== "custom" && key !== "typeText" && key !== "multipleTests") {
         for (var i = 0; i < arr[index][1].length; i++) {
             testString += `['${key}']` + `('${value[i]}')`;
         };

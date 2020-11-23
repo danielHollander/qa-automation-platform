@@ -89,8 +89,13 @@ export class TestFormComponent implements OnInit {
       for (var i = 0; i < event.currentTarget.length; i++) {
         if (event.currentTarget[i].type == "select-one" && event.currentTarget[i].value != "custom" && event.currentTarget[i].value != "multipleTests" && event.currentTarget[i].value != "multipleTests") {
           if (typeof dataObject[event.currentTarget[i].value] == "undefined") {
-            dataObject[event.currentTarget[i].value] = [];
-            dataObject[event.currentTarget[i].value].push(event.currentTarget[i + 1].value);
+            if (event.currentTarget[i].value == "typeText") {
+              dataObject[event.currentTarget[i].value] = [];
+              dataObject[event.currentTarget[i].value].push(event.currentTarget[2].value.split(", "));
+            } else {
+              dataObject[event.currentTarget[i].value] = [];
+              dataObject[event.currentTarget[i].value].push(event.currentTarget[i + 1].value);
+            }
           } else
             dataObject[event.currentTarget[i].value].push(event.currentTarget[i + 1].value);
         }
@@ -108,7 +113,7 @@ export class TestFormComponent implements OnInit {
         }
       }
       //Always add a date to the test request
-      let today = (new Date).toUTCString();
+      let today = (new Date).toString().split(" GMT")[0];
       dataObject["date"] = today;
 
       //Always add an ID to each test
