@@ -1,22 +1,60 @@
 <div class="table-responsive">
+<app-filters [childToMaster]=filterData (childToParent)="childToParent($event)"></app-filters>
 <table class="table table-striped table-sm" id="tests-data">
     <thead>
         <th *ngFor="let header of headers; index as i" > {{headers[i]}}</th>
     </thead>
     <tbody>
-       <tr *ngFor="let row of values; let j = index;">
-        <!-- This is stupid-  Daniel please think of a whole new logic for this -->
+       <tr *ngFor="let row of testsData | dataFilter: filterData; let j = index; ">
+         <td>
+           <div class = "fa id" [ngClass] = "{'pending' : row.id=='pending...'}">
+             <span>
+               {{row.id}}
+              </span>
+            </div>
+          </td>
+         <td>
+           <div class = "fa" [ngClass] = "{'pending' : row.name=='pending...'}">
+             <span>{{row.date}}</span>
+            </div>
+          </td>
+         <td>
+           <div class = "fa "  [ngClass] = "{'pending' : row.date=='pending...'}">
+             <span>
+               {{row.name}}
+              </span>
+            </div>
+          </td>
+         <td>
+           <div class = "fa " [ngClass]="{
+              'fa-check-circle text-success': row.status > 0,
+              'fa-times-circle text-danger': row.status == 0,
+              'pending' : row.status == 'pending...'
+           }">
+             <span [hidden] = "true">
+               {{row.status}}
+              </span>
+            </div>
+          </td>
+         <td>
+           <div class = "fa "  [ngClass] = "{'pending' : row.duration == 'pending...'}">
+             <span>
+               {{row.duration}}
+             </span>
+            </div>
+          </td>
+        <!-- This is stupid-  Daniel please think of a whole new logic for this
           <td *ngFor ="let c of row; let h = index;">
             <div class = "fa " [ngClass]="{
-              'fa-check-circle text-success': c > 0 && 3 == h,
-              'fa-times-circle text-danger': c == 0 && 3 == h,
-              'pending' : c=='pending...' && 3 == h,
+              'fa-check-circle text-success': row.status > 0,
+              'fa-times-circle text-danger': row.status == 0,
+              'pending' : c=='pending...',
               'regular': c !== row[row.length-2],
               'id': 0==h
             }">
             <span *ngIf = "h !== 3 || c == 'pending...'"> {{c}} </span>
             </div>
-          </td>
+          </td> -->
        </tr>
     </tbody>
 </table>

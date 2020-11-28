@@ -255,7 +255,6 @@ app.post('/comments', async (req, res) => {
 
 
 app.post("/uploads", (req, res) => {
-    console.log(req.body);
     //Update DB
     async function createMedia(req, res) {
         const media = new Media({
@@ -272,6 +271,26 @@ app.post("/uploads", (req, res) => {
         console.log(result);
     }
     createMedia(req, res);
+});
+
+
+
+app.post("/uploads/delete", (req, res) => {
+    //Update DB
+    Media.deleteOne({
+        id: req.body.id,
+        comment: req.body.comment,
+        date: req.body.date,
+        progress: req.body.progress,
+        filename: req.body.filename,
+        chunkSize: req.body.chunkSize,
+        src: req.body.src
+    }, function (err, media) {
+        if (err)
+            return console.error(err);
+        console.log('media successfully removed from Media collection!');
+        res.status(200).send();
+    });
 });
 
 //Detect Media

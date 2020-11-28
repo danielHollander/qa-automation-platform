@@ -23,6 +23,7 @@ import { LoginComponent } from './login/login.component';
 import { EditorComponent } from './editor/editor.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { Pipe, PipeTransform } from '@angular/core';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpConfigInterceptor } from './intercepter/httpconfig.interceptor';
@@ -30,6 +31,8 @@ import { UploadComponent } from './upload/upload.component';
 import { ProgressComponent } from './progress/progress.component';
 import { DndDirective } from './dnd.directive';
 import { SafePipe } from './safe.pipe';
+import { FiltersComponent } from './filters/filters.component';
+import { DataFilterPipe } from './data-filter.pipe';
 
 Quill.register(
   {
@@ -75,6 +78,8 @@ const quillConfig: QuillConfig = {
     ProgressComponent,
     DndDirective,
     SafePipe,
+    FiltersComponent,
+    DataFilterPipe,
     // FileSelectDirective
   ],
   imports: [

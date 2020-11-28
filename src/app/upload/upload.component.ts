@@ -26,17 +26,28 @@ export class UploadComponent implements OnInit {
     });
   }
   renderFiles = [];
+  showImage = true;
   renderAllFiles = () => {
     this.renderFiles = [];
     const testId = document.querySelector<HTMLElement>('.test-full-details').id;
     for (var i = 0; i < this.filesData.length; i++) {
       if (testId == this.filesData[i].id) {
-        //Should we use DOM sanitizer???
-        let url = this.encodeImageFileAsURL(this.filesData[i].src);
-        this.imgSrc.push(this.sanitizer.bypassSecurityTrustUrl(url));
-        this.files.push(this.filesData[i]);
+        if (this.filesData[i].src.startsWith("data:image")) {
+          this.showImage = true;
+          //Should we use DOM sanitizer???
+          let url = this.encodeImageFileAsURL(this.filesData[i].src);
+          this.imgSrc.push(this.sanitizer.bypassSecurityTrustUrl(url));
+          this.files.push(this.filesData[i]);
+        }
+        if (this.filesData[i].src.startsWith("data:video")) {
+          this.showImage = false;
+          let url = this.encodeImageFileAsURL(this.filesData[i].src);
+          this.videoSrc.push(this.sanitizer.bypassSecurityTrustUrl(url));
+          this.files.push(this.filesData[i]);
+        }
       }
     }
+    console.log("Rendering files");
     console.log(this.files);
   }
   encodeImageFileAsURL(dataImage) {
@@ -61,7 +72,7 @@ export class UploadComponent implements OnInit {
       return blob;
     }
 
-    const contentType = 'image/png';
+    const contentType = dataImage.startsWith("data:image") ? 'image/png' : 'video/webm';
     const b64Data = dataImage.split(",")[1];
 
     const blob = b64toBlob(b64Data, contentType);
@@ -90,33 +101,41 @@ export class UploadComponent implements OnInit {
    * handle file from browsing
    */
   imgSrc = [];
+  videoSrc = [];
   parseDataURL = (files) => {
+    this.videoSrc = [];
     this.imgSrc = [];
     var mediaObject = {};
     if (files.length > 0) {
-      debugger;
       var fileToLoad = files[0];
 
       var fileReader = new FileReader();
 
       fileReader.onload = async (fileLoadedEvent) => {
         var srcData = fileLoadedEvent.target.result; // <--- data: base64
+        if (srcData.toString().startsWith("data:image")) {
+          var newImage = document.createElement('img');
+          newImage.src = srcData.toString();
 
-        var newImage = document.createElement('img');
-        newImage.src = srcData.toString();
+          let url = this.encodeImageFileAsURL(newImage.src);
+          this.imgSrc.push(this.sanitizer.bypassSecurityTrustUrl(url));
+        }
 
+        if (srcData.toString().startsWith("data:video")) {
+          var newVideo = document.createElement('video');
+          newVideo.src = srcData.toString();
 
-        this.imgSrc.push(this.encodeImageFileAsURL(newImage.src));
-        // (<HTMLElement>document.getElementById("imgTest"));
-        // alert("Converted Base64 version is " + document.getElementById("imgTest").innerHTML);
-        console.log("Converted Base64 version is " + newImage.src);
+          let url = this.encodeImageFileAsURL(newVideo.src);
+          this.videoSrc.push(this.sanitizer.bypassSecurityTrustUrl(url));
+        }
+        const finalUrl = typeof newImage != "undefined" ? newImage.src : newVideo.src;
         const testId = document.querySelector<HTMLElement>('.test-full-details').id;
         Object.assign(mediaObject, {
           progress: 100,
           id: testId,
           filename: fileToLoad.name,
           chunkSize: fileToLoad.size,
-          src: newImage.src
+          src: finalUrl
         });
         this.http.post<any>('http://localhost:3001/uploads', mediaObject, {}).subscribe();
       }
@@ -133,12 +152,23 @@ export class UploadComponent implements OnInit {
    * Delete file from files list
    * @param index (File index)
    */
-  deleteFile(index: number) {
+  tempFiles = this.files;
+  deleteFile(index: number, event) {
+    //Remove media from server
+    var removeMediaObject;
+    for (var i = 0; i < this.files.length; i++) {
+      if (event.currentTarget.parentElement.children[2].innerText.indexOf(this.files[i].filename) > -1)
+        removeMediaObject = this.files[i];
+    }
+    console.log(removeMediaObject);
+    this.http.post<any>('http://localhost:3001/uploads/delete', removeMediaObject, {}).subscribe();
+
     if (this.files[index].progress < 100) {
       console.log("Upload in progress.");
       return;
     }
     this.files.splice(index, 1);
+
   }
 
   /**
@@ -192,7 +222,20 @@ export class UploadComponent implements OnInit {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   }
   showModal = false;
+  currentImgSrc;
+  currentVideoSrc;
   show(event) {
+    console.log(event);
+    this.currentImgSrc = '';
+    this.currentVideoSrc = '';
+    if (typeof event.srcElement.currentSrc != "undefined" && event.target.localName == "img") {
+      this.showImage = true;
+      this.currentImgSrc = this.sanitizer.bypassSecurityTrustUrl(event.srcElement.currentSrc);
+    }
+    if (typeof event.srcElement.currentSrc != "undefined" && event.target.localName == "video") {
+      this.currentVideoSrc = this.sanitizer.bypassSecurityTrustUrl(event.srcElement.currentSrc);
+      this.showImage = false;
+    }
     this.showModal = true; // Show-Hide Modal Check
   }
   //Bootstrap Modal Close event

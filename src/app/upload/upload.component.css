@@ -91,7 +91,8 @@ img.delete {
   width: 100%
 }
 
-.single-file>img:hover {
+.single-file>img:hover,
+.single-file>video:hover {
   opacity: 0.4;
 }
 

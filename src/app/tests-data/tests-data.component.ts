@@ -7,6 +7,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { ChangeDetectionStrategy } from "@angular/core";
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { UserService } from '../services/user/user.service';
+import { Pipe, PipeTransform } from '@angular/core';
+import { DataFilterPipe } from '../data-filter.pipe';
 
 interface Quill {
   getModule(moduleName: string);
@@ -55,22 +57,6 @@ export class TestsDataComponent implements OnInit {
                   return "Test Date and Time"
                 case "name":
                   return "Test Name"
-                // case "click":
-                //   return "Click Parameter"
-                // case "navigateTo":
-                //   return "Navigation Parameter"
-                // case "expect":
-                //   return "Expected Test Result Parameter"
-                // case "eql":
-                //   return "Expected Test Result will Equall to Parameter"
-                // case "typeText":
-                //   return "Typed Text Parameter"
-                // case "getBrowserConsoleMessages":
-                //   return "Browser Console Message Parameter"
-                // case "custom":
-                //   return "Custom Test"
-                // case "multipleTests":
-                //   return "Multiple Tests"
                 case "status":
                   return "Test Status"
                 case "duration":
@@ -307,5 +293,12 @@ export class TestsDataComponent implements OnInit {
       this.userName = user[0].name;
       console.log(this.userName);
     });
+  }
+
+  //Handle filtering from child component
+  filterData;
+  childToParent = (filter) => {
+    this.filterData = filter;
+    console.log(this.filterData)
   }
 }

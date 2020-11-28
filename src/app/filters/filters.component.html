@@ -1,0 +1,26 @@
+<div class="form-group" *ngFor="let filter of filtersArr; let i = index;">
+  <div class="filter-sort-container" [id]=filtersArr[i].id>
+    <div class="filter-container"> 
+      <div>Filter by...</div>
+      <input class="input-filter form-control" type="text" placeholder="Search any value..." (keyup)=onKeyPress($event)>
+      <select class="select-filter form-control" type="select" ng-model="test">
+        <option *ngFor="let header of headers; let i = index;" [value] = headers[i]>{{header}}</option> 
+      </select>
+    <div id="buttons-filter">
+        <button type="button" class="btn btn-primary" (click)="handleIncrement($event)">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+            </svg>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="handleDecrement($event)" [disabled]="filtersArr.length > 1 ? false : true">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-dash-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
+            </svg>
+        </button>
+    </div>
+    </div>
+    <!-- <div class="sort-container">
+      <input type="text" placeholder="Search any value..." ng-model="test">
+    </div> -->
+  </div>
+</div>

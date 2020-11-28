@@ -1,0 +1,22 @@
+.filter-sort-container,
+.filter-container {
+  display: flex;
+  flex-direction: row;
+  padding-top: 10px;
+}
+
+.filter-container>* {
+  margin-right: 10px;
+}
+
+.filter-container>#button {
+  margin-top: 0px;
+}
+
+#buttons-filter {
+  display: flex;
+}
+
+#buttons-filter> :last-child {
+  margin-left: 10px;
+}
