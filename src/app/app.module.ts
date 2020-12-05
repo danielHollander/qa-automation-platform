@@ -8,9 +8,10 @@ import { QuillConfig, QuillModule } from "ngx-quill";
 import * as Quill from "quill";
 import QuillBetterTable from "quill-better-table";
 import { FileDropDirective, FileSelectDirective } from 'ng2-file-upload';
-
+import { NgPipesModule } from 'ngx-pipes';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NO_ERRORS_SCHEMA } from "@angular/core"
 import { DataComponent } from './data/data.component';
 import { TestAutomationComponent } from './test-automation/test-automation.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -33,6 +34,8 @@ import { DndDirective } from './dnd.directive';
 import { SafePipe } from './safe.pipe';
 import { FiltersComponent } from './filters/filters.component';
 import { DataFilterPipe } from './data-filter.pipe';
+import { SortPipe } from './sort.pipe';
+import { ChartsModule } from 'ng2-charts';
 
 Quill.register(
   {
@@ -80,6 +83,7 @@ const quillConfig: QuillConfig = {
     SafePipe,
     FiltersComponent,
     DataFilterPipe,
+    SortPipe,
     // FileSelectDirective
   ],
   imports: [
@@ -92,7 +96,9 @@ const quillConfig: QuillConfig = {
     AceEditorModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
-    QuillModule.forRoot(quillConfig)
+    QuillModule.forRoot(quillConfig),
+    NgPipesModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -2,10 +2,10 @@
 <app-filters [childToMaster]=filterData (childToParent)="childToParent($event)"></app-filters>
 <table class="table table-striped table-sm" id="tests-data">
     <thead>
-        <th *ngFor="let header of headers; index as i" > {{headers[i]}}</th>
+        <th *ngFor="let header of headers; index as i" (click) = "changeSortOrder($event)"> {{headers[i]}}</th>
     </thead>
     <tbody>
-       <tr *ngFor="let row of testsData | dataFilter: filterData; let j = index; ">
+       <tr *ngFor="let row of testsData | dataFilter: filterData | sort:sortValue:'id'; let j = index;">
          <td>
            <div class = "fa id" [ngClass] = "{'pending' : row.id=='pending...'}">
              <span>
@@ -27,8 +27,8 @@
           </td>
          <td>
            <div class = "fa " [ngClass]="{
-              'fa-check-circle text-success': row.status > 0,
-              'fa-times-circle text-danger': row.status == 0,
+              'fa-check-circle text-success': row.status ==  'Success',
+              'fa-times-circle text-danger': row.status == 'Failed',
               'pending' : row.status == 'pending...'
            }">
              <span [hidden] = "true">

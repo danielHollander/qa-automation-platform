@@ -1,0 +1,407 @@
+nav.navbar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+nav.right {
+  -webkit-tap-highlight-color: transparent;
+  font-weight: 400;
+  text-align: left;
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+  color: #72777a;
+  letter-spacing: .2px;
+  font-family: Roboto,
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    Arial,
+    sans-serif;
+  line-height: 1.5;
+  box-sizing: border-box;
+  margin-top: 0;
+  list-style: none;
+  margin-bottom: 0;
+  padding-left: 0;
+  position: relative;
+  float: right;
+}
+
+ul.nav-right {
+  display: flex;
+  margin: 0;
+}
+
+span.counter {
+  background-color: #ff3c7e;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
+  padding: 3px 5.5px;
+  position: absolute;
+  right: 6px;
+  top: 12px;
+}
+
+a.dropdown-toggle {
+  color: #72777a;
+  display: block;
+  line-height: 65px;
+  min-height: 65px;
+  padding: 0 15px;
+  -webkit-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+
+.ti-bell:before {
+  content: "\E6B8";
+}
+
+::marker,
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+ul,
+li {
+  list-style-type: none;
+}
+
+.peer {
+  display: block;
+  height: auto;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+
+.bdrs-50p {
+  border-radius: 50% !important;
+}
+
+.dropdown-menu {
+  -webkit-tap-highlight-color: transparent;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: .2px;
+  font-family: Roboto,
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    Arial,
+    sans-serif;
+  line-height: 1.5;
+  font-size: .875rem;
+  color: #212529;
+  list-style: none;
+  box-sizing: border-box;
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  border-bottom: 1px solid rgba(0, 0, 0, .0625) !important;
+  width: 100%;
+}
+
+.notifications {
+  cursor: pointer;
+}
+
+a.peers {
+  -webkit-tap-highlight-color: transparent;
+  font-weight: 400;
+  letter-spacing: .2px;
+  font-family: Roboto,
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    Arial,
+    sans-serif;
+  line-height: 1.5;
+  list-style: none;
+  font-size: .87rem !important;
+  background-color: transparent;
+  touch-action: manipulation;
+  transition: all .3s ease-in-out;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  display: flex !important;
+  -webkit-box-align: start;
+  align-items: flex-start;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-flow: row wrap;
+  height: auto;
+  max-width: 100%;
+  margin: 0;
+  flex-wrap: nowrap;
+  padding: 20px !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid rgba(0, 0, 0, .0625) !important;
+  color: #565a5c !important;
+}
+
+ul.dropdown-menu {
+  -webkit-tap-highlight-color: transparent;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: .2px;
+  font-family: Roboto,
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    Arial,
+    sans-serif;
+  line-height: 1.5;
+  box-sizing: border-box;
+  position: absolute;
+  top: 100%;
+  z-index: 1000;
+  float: left;
+  font-size: .875rem;
+  color: #212529;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-radius: .25rem;
+  margin: 0;
+  transform-origin: top right;
+  transition: transform .15s ease-out,
+    -webkit-transform .15s ease-out;
+  transform: scale(1);
+  left: auto;
+  right: 0;
+  min-width: 350px;
+  padding: 0;
+}
+
+li.pX-20 {
+  -webkit-tap-highlight-color: transparent;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: .2px;
+  font-family: Roboto,
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    Arial,
+    sans-serif;
+  line-height: 1.5;
+  font-size: .875rem;
+  color: #212529;
+  list-style: none;
+  box-sizing: border-box;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, .0625);
+  width: 100%;
+
+}
+
+.ti-angle-right:before {
+  content: ">";
+}
+
+a.c-grey-600 {
+  -webkit-tap-highlight-color: transparent;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: .2px;
+  font-family: Roboto,
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    Arial,
+    sans-serif;
+  line-height: 1.5;
+  font-size: .875rem;
+  color: #212529;
+  list-style: none;
+  text-align: center !important;
+  box-sizing: border-box;
+}
+
+#main-container>nav>ul>li.notifications.dropdown>ul>li.pX-20.pY-15.ta-c.bdT,
+#main-container>nav>ul>li:nth-child(2)>ul>li:nth-child(4)>a {
+  border-bottom: none !important;
+  --blue: #007bff;
+  --indigo: #6610f2;
+  --purple: #6f42c1;
+  --pink: #e83e8c;
+  --red: #dc3545;
+  --orange: #fd7e14;
+  --yellow: #ffc107;
+  --green: #28a745;
+  --teal: #20c997;
+  --cyan: #17a2b8;
+  --white: #fff;
+  --gray: #6c757d;
+  --gray-dark: #343a40;
+  --primary: #007bff;
+  --secondary: #6c757d;
+  --success: #28a745;
+  --info: #17a2b8;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light: #f8f9fa;
+  --dark: #343a40;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --font-family-sans-serif: -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji";
+  --font-family-monospace: SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace;
+  font: 400 14px/20px Roboto,
+    "Helvetica Neue",
+    sans-serif;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: .2px;
+  font-family: Roboto,
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    Arial,
+    sans-serif;
+  line-height: 1.5;
+  font-size: .875rem;
+  text-align: center;
+  color: #72777a !important;
+  list-style: none;
+  box-sizing: border-box;
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  width: 100%;
+  border-bottom: none !important;
+}
+
+li.dropdown {
+  cursor: pointer;
+}
+
+.dropdown-menu.fsz-sm.show {
+  -webkit-tap-highlight-color: transparent;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: .2px;
+  font-family: Roboto,
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    Arial,
+    sans-serif;
+  line-height: 1.5;
+  box-sizing: border-box;
+  position: absolute;
+  top: 100%;
+  z-index: 1000;
+  float: left;
+  min-width: 10rem;
+  padding: .5rem 0;
+  color: #212529;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-radius: .25rem;
+  font-size: .87rem !important;
+  display: block;
+  margin: 0;
+  transform-origin: top right;
+  transition: transform .15s ease-out,
+    -webkit-transform .15s ease-out;
+  transform: scale(1);
+  left: auto;
+  right: 0;
+}
+
+span {
+  line-height: 1;
+}

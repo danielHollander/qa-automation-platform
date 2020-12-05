@@ -1,19 +1,87 @@
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group mr-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-          </div>
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar"></span>
-            This week
-          </button>
+<main class="main-content bgc-grey-100">
+<div id="mainContent">
+    <div class="masonry-item w-100">
+    <div class="row gap-20">
+        <div class="col-md-3">
+            <div class="layers bd bgc-white p-20">
+                <div class="layer w-100 mB-10">
+                <h6 class="lh-1">Total Tests</h6>
+                </div>
+                <div class="layer w-100">
+                <div class="peers ai-sb fxw-nw">
+                    <div class="peer peer-greed">
+                        <span id="sparklinedash">
+                            13
+                        </span>
+                    </div>
+                    <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">100%</span></div>
+                </div>
+                </div>
+            </div>
         </div>
-      </div>
-
-      <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
-<h2>Section title</h2>
-<app-data></app-data>
- </main>
+        <div class="col-md-3">
+            <div class="layers bd bgc-white p-20">
+                <div class="layer w-100 mB-10">
+                <h6 class="lh-1">Total Sucessfull Tests</h6>
+                </div>
+                <div class="layer w-100">
+                <div class="peers ai-sb fxw-nw">
+                    <div class="peer peer-greed">
+                        <span id="sparklinedash2">
+                            8
+                        </span>
+                    </div>
+                    <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500">61.53%</span></div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="layers bd bgc-white p-20">
+                <div class="layer w-100 mB-10">
+                <h6 class="lh-1">Total failed Tests</h6>
+                </div>
+                <div class="layer w-100">
+                <div class="peers ai-sb fxw-nw">
+                    <div class="peer peer-greed">
+                        <span id="sparklinedash3">
+                            5
+                        </span>
+                    </div>
+                    <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">38.46%</span></div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="layers bd bgc-white p-20">
+                <div class="layer w-100 mB-10">
+                <h6 class="lh-1">Total Pending Tests</h6>
+                </div>
+                <div class="layer w-100">
+                <div class="peers ai-sb fxw-nw">
+                    <div class="peer peer-greed">
+                        <span id="sparklinedash4">
+                            0
+                        </span>
+                    </div>
+                    <div class="peer"><span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-yellow-50 c-yellow-500">0%</span></div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+     <div class="chart">
+      <canvas baseChart
+        [data]="pieChartData"
+        [labels]="pieChartLabels"
+        [chartType]="pieChartType"
+        [options]="pieChartOptions"
+        [plugins]="pieChartPlugins"
+        [colors]="pieChartColors"
+        [legend]="pieChartLegend">
+      </canvas>
+    </div>
+</div>
+</main>

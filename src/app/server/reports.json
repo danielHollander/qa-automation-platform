@@ -1,6 +1,6 @@
 {
-  "startTime": "2020-11-25T09:20:37.658Z",
-  "endTime": "2020-11-25T09:20:45.035Z",
+  "startTime": "2020-12-02T09:54:59.876Z",
+  "endTime": "2020-12-02T09:55:06.350Z",
   "userAgents": [
     "Chrome 86.0.4240.198 / Windows 10"
   ],
@@ -14,13 +14,13 @@
       "meta": {},
       "tests": [
         {
-          "name": "quick test before meeting with amir",
+          "name": "Another quick test before meeting with Amir",
           "meta": {
-            "testId": "12",
-            "testName": "quick test before meeting with amir"
+            "testId": "13",
+            "testName": "Another quick test before meeting with Amir"
           },
           "errs": [],
-          "durationMs": 7357,
+          "durationMs": 6443,
           "screenshotPath": null,
           "skipped": false
         }

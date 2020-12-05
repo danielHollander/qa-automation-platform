@@ -12,9 +12,11 @@ import { UserService } from './services/user/user.service';
 })
 export class AppComponent {
   constructor(private user: UserService, private router: Router) { }
+  userName;
   getProtectedData() {
     this.user.getProtectedData().subscribe((data: any) => {
       console.log(data)
+      this.userName = data[0].name;
     });
   }
 
@@ -33,6 +35,13 @@ export class AppComponent {
     this.removeLoginClass();
   }
 
+  openMenu = (event) => {
+    console.log(event);
+    if (event.path[2].classList[0] == "notifications" || event.path[1].classList[0] == "notifications")
+      document.querySelector('li.notifications ul.dropdown-menu.show') == null ? document.querySelector('li.notifications ul.dropdown-menu').classList.add("show") : document.querySelector('li.notifications ul.dropdown-menu').classList.remove("show");
+    else
+      document.querySelector('li.dropdown ul.dropdown-menu.fsz-sm.show') == null ? document.querySelector('li.dropdown ul.dropdown-menu.fsz-sm').classList.add("show") : document.querySelector('li.dropdown ul.dropdown-menu.fsz-sm').classList.remove("show");
+  }
 
   logout() {
     localStorage.removeItem('Token');

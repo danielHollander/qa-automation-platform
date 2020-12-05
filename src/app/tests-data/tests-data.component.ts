@@ -9,6 +9,8 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { UserService } from '../services/user/user.service';
 import { Pipe, PipeTransform } from '@angular/core';
 import { DataFilterPipe } from '../data-filter.pipe';
+import { SortPipe } from '../sort.pipe'
+
 
 interface Quill {
   getModule(moduleName: string);
@@ -29,8 +31,8 @@ export class TestsDataComponent implements OnInit {
     const promise = this.http.get<Tests[]>('http://localhost:3001/tests').toPromise();
     promise.then((tests) => {
       this.testsData = tests;
+      this.changeStatusValue();
       this.renderHeaders();
-      this.renderValuesData();
     });
   }
 
@@ -79,32 +81,14 @@ export class TestsDataComponent implements OnInit {
     }
   }
 
-  values = [];
-  renderValuesData = () => {
-    this.values = Object.values(this.testsData).map((object, objectIndex, array) => {
-      const allowed = [
-        "id",
-        "name",
-        "date",
-        "status",
-        "duration",
-      ];
-      const filtered = Object.keys(object)
-        .filter(key => allowed.includes(key))
-        .reduce((obj, key) => {
-          return {
-            ...obj,
-            [key]: object[key]
-          };
-        }, {});
-      return Object.values(filtered).map((property, index, arr) => typeof property != "undefined" ? property.toString() : '');
-    })
 
-    console.log(this.values);
-  }
-
-  addIconClass = (cellValue) => {
-    console.log(cellValue);
+  changeStatusValue = () => {
+    for (var i = 0; i < this.testsData.length; i++) {
+      if (this.testsData[i].status == "1")
+        this.testsData[i].status = "Success";
+      else
+        this.testsData[i].status = "Failed";
+    }
   }
 
   updateData;
@@ -122,7 +106,6 @@ export class TestsDataComponent implements OnInit {
       promise.then((tests) => {
         console.log("calling interval");
         this.testsData = tests;
-        this.renderValuesData();
       });
 
       const commentsPromise = this.http.get<Comments[]>('http://localhost:3001/comments').toPromise();
@@ -179,7 +162,7 @@ export class TestsDataComponent implements OnInit {
     const getTestStatus = (data, event) => {
       for (var i = 0; i < data.length; i++) {
         if (event.target.parentElement.parentElement.children[0].innerText == data[i].id[0]) {
-          if (data[i].status == 1)
+          if (data[i].status == "Success")
             this.testStatus = "Success"
           else
             this.testStatus = "Failed"
@@ -255,6 +238,10 @@ export class TestsDataComponent implements OnInit {
       commentBoxArr[i].addEventListener("click", this.showComment);
     };
 
+    // const dataHeaders = document.querySelectorAll('thead > th');
+    // for (var i = 0; i < dataHeaders.length; i++) {
+    //   dataHeaders[i].addEventListener("click", this.changeSortOrder);
+    // }
   }
 
   quill: Quill;
@@ -300,5 +287,14 @@ export class TestsDataComponent implements OnInit {
   childToParent = (filter) => {
     this.filterData = filter;
     console.log(this.filterData)
+  }
+
+  //handle sort
+  sortValue = 'asc';
+  changeSortOrder = (event) => {
+    if (this.sortValue == 'desc')
+      this.sortValue = 'asc';
+    else
+      this.sortValue = 'desc';
   }
 }

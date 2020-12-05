@@ -4,7 +4,10 @@
 @import '~quill/dist/quill.bubble.css';
 
 body {
-  font-size: .875rem;
+  font-size: 14px;
+  color: #72777a;
+  letter-spacing: .2px;
+  overflow-x: hidden;
 }
 
 .feather {
@@ -917,5 +920,3 @@ div.ql-toolbar.ql-snow {
 .comment-user {
   color: #7b68ee;
 }
-
-
