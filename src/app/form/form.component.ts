@@ -16,9 +16,7 @@ export class FormComponent implements OnInit {
     "Expect",
     "Equals",
     "Type Text",
-    "Browser Log",
-    "Custom",
-    "Multiple Tests",
+    "Browser Log"
   ]
 
   @Input("FormToEditor") testsValues = [
@@ -27,9 +25,7 @@ export class FormComponent implements OnInit {
     "expect",
     "eql",
     "typeText",
-    "getBrowserConsoleMessages",
-    "custom",
-    "multipleTests"
+    "getBrowserConsoleMessages"
   ]
   constructor() { }
 
@@ -72,32 +68,4 @@ export class FormComponent implements OnInit {
     console.log(this.componentsArr);
   }
 
-  //For code editor and mutiple tests
-  @Input("testsToEditor") multipleTests = false;
-  @Input("customToEditor") customTest = false;
-  onCustomTestChange = (event) => {
-    if (event.target != null) {
-      if (event.target.value == "custom") {
-        this.customTest = true;
-        this.multipleTests = false;
-        this.editorsArr = [{ component: '<app-editor></app-editor>', id: 0 }];
-        console.log("custom test " + this.customTest);
-        console.log("multiple tests " + this.multipleTests);
-      }
-      if (event.target.value == "multipleTests") {
-        this.multipleTests = true;
-        this.customTest = false;
-        console.log("multiple tests " + this.multipleTests);
-        console.log("custom test " + this.customTest);
-      }
-      if (event.target.value !== "multipleTests" && event.target.value !== "custom") {
-        this.customTest = false;
-        this.multipleTests = false;
-      }
-    }
-  }
-  editorToForm = (arr) => {
-    this.editorsArr = arr;
-    console.log(this.editorsArr);
-  }
 }

@@ -1,18 +1,7 @@
-<ace-editor
-    [(text)]="text"
-    [hidden] ="!customTest"
-    (textChanged)="onCodeChange($event)"
-    [value] = "text"
-    [theme]="'eclipse'"
-    [autoUpdateContent]="true" 
-    [options]="options"
-    #editor style="min-height: 200px; width:100%; overflow: auto; border: 1px solid lightgray;">
-</ace-editor>
-<div class="multiple-tests-container" *ngIf = "multipleTests == true">
-    <input type="number" class="form-control" id="multipleTests" style="width: fit-content;" [hidden] ="!multipleTests" (change)="onUpdateTestNumber($event)" min="1" *ngIf = "multipleTests == true">
+<div class="multiple-tests-container">
+    <input type="number" class="form-control" id="multipleTests" name="custom" style="width: fit-content;" (change)="onUpdateTestNumber($event)" min="1">
     <ace-editor
         [(text)]="text"
-        [hidden] ="!multipleTests"
         (textChanged)="onCodeChange($event)"
         [value] = "text"
         [theme]="'eclipse'"

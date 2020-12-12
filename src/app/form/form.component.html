@@ -1,13 +1,12 @@
-<div class="form-group">
+<div class="form-group test-options">
     <div id="test-params">
         <label class="label label-default" >Select test Parameters</label>
-        <select class="form-control" id="tests" required (change)="onCustomTestChange($event)">
+        <select class="form-control" id="tests" required>
             <option *ngFor="let tests of testsOptions; let i = index;" [value] = testsValues[i] >{{tests}}</option>
         </select>
         <div id="test-input">
             <label class="label label-default" >Type in your Query</label>
-            <input type="text" class="form-control" id="custom" [hidden] ="customTest || multipleTests">
-            <app-editor [FormToEditor] = "testsValues" [testsToEditor] = "multipleTests" [customToEditor] = "customTest" [editorsArrToChild] = "editorsArr" (editorToForm) = "editorToForm($event)" *ngFor="let editor of editorsArr; index as i" ></app-editor>
+            <input type="text" class="form-control" id="test-param-input" name="test-param">
         </div>
     </div>
     <div id="buttons">

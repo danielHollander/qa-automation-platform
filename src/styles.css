@@ -145,6 +145,21 @@ div.form-group,
   grid-row-gap: 15px;
 }
 
+.test-options {
+  display: flex !important;
+  align-items: baseline;
+}
+
+.test-options>#test-params,
+.test-options #test-input {
+  display: flex !important;
+  justify-content: space-around;
+}
+
+.test-options>#test-params * {
+  margin-right: 10px;
+}
+
 .label-default {
   background-color: #777
 }
@@ -919,4 +934,38 @@ div.ql-toolbar.ql-snow {
 
 .comment-user {
   color: #7b68ee;
+}
+
+
+.mat-form-field-infix {
+  border-top: unset !important;
+}
+
+.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
+.mat-form-field-appearance-legacy.mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label {
+  transform: translateY(2.78125em) scale(0.75) perspective(100px) translateZ(0.001px) !important;
+  z-index: 99999;
+}
+
+span.mat-form-field-label-wrapper {
+  padding-bottom: .84375em !important;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0px !important;
+}
+
+.mat-step-header {
+  background-color: #007bff !important;
+  color: white;
+  margin-bottom: 5px;
+}
+
+.mat-step-header .mat-step-label.mat-step-label-active {
+  color: white;
+}
+
+
+.mat-horizontal-content-container {
+  padding: 0 !important;
 }

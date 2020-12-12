@@ -1,0 +1,31 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~ng-wizard/themes/ng_wizard_theme_arrows.min.css';
+@import '~ng-wizard/themes/ng_wizard_theme_circles.min.css';
+@import '~ng-wizard/themes/ng_wizard_theme_dots.min.css';
+
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-form-field {
+  margin-top: 16px;
+}
+
+::ng-deep .mat-form-field-underline {
+  display: none !important;
+}
+
+.mat-form-field-infix {
+  border: unset !important;
+}
+
+div.form-group {
+  display: flex;
+  flex-direction: column;
+  grid-row-gap: unset;
+
+}
+
+mat-form-field.mat-form-field {
+  margin-top: unset;
+}

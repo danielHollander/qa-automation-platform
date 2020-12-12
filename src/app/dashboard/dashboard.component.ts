@@ -2,6 +2,8 @@ import { Component, OnInit, HostBinding } from '@angular/core';
 import { ChartType, ChartOptions } from 'chart.js';
 import { Label } from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
+import { UserService } from '../services/user/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,8 +14,15 @@ export class DashboardComponent implements OnInit {
 
   @HostBinding('className') componentClass: string;
 
-  constructor() {
+  constructor(private user: UserService, private router: Router) {
     this.componentClass = 'col-md-9 ml-sm-auto col-lg-10 px-md-4';
+  }
+  users;
+  getProtectedData() {
+    this.user.getProtectedData().subscribe((data: any) => {
+      console.log(data)
+      this.users = data;
+    });
   }
 
   public pieChartOptions: ChartOptions = {
@@ -42,7 +51,7 @@ export class DashboardComponent implements OnInit {
   ];
 
   ngOnInit() {
-
+    this.getProtectedData();
   }
 
 }

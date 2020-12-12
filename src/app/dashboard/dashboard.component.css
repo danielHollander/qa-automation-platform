@@ -348,9 +348,7 @@ main.main-content {
 }
 
 div.chart {
-  position: absolute;
-  width: 1000px;
-  top: 150px;
+  margin-top: 15px;
   background-color: #fff;
   padding: 25px;
 }
@@ -430,3 +428,16 @@ div.chart::before {
   letter-spacing: .5px;
   line-height: 1 !important;
 }
+
+div.main-card.mb-3.card {
+  margin-top: 15px;
+}
+
+.card-header {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
+  color: inherit;
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+

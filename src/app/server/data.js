@@ -137,7 +137,6 @@ app.post('/tests', async (req, res) => {
 
         try {
             console.log("data is")
-            console.log();
             const test = await runner
                 .src(['QA-test.js'])
                 .browsers(['chrome'])

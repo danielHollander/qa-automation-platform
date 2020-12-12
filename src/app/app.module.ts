@@ -25,8 +25,11 @@ import { EditorComponent } from './editor/editor.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Pipe, PipeTransform } from '@angular/core';
-
+import { MatStepperModule } from '@angular/material/stepper';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatInputModule } from '@angular/material/input';
+import { NgWizardModule, NgWizardConfig, THEME } from 'ng-wizard';
+
 import { HttpConfigInterceptor } from './intercepter/httpconfig.interceptor';
 import { UploadComponent } from './upload/upload.component';
 import { ProgressComponent } from './progress/progress.component';
@@ -36,6 +39,11 @@ import { FiltersComponent } from './filters/filters.component';
 import { DataFilterPipe } from './data-filter.pipe';
 import { SortPipe } from './sort.pipe';
 import { ChartsModule } from 'ng2-charts';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+
+const ngWizardConfig: NgWizardConfig = {
+  theme: THEME.default
+};
 
 Quill.register(
   {
@@ -84,7 +92,8 @@ const quillConfig: QuillConfig = {
     FiltersComponent,
     DataFilterPipe,
     SortPipe,
-    // FileSelectDirective
+
+
   ],
   imports: [
     BrowserModule,
@@ -98,9 +107,29 @@ const quillConfig: QuillConfig = {
     MatSnackBarModule,
     QuillModule.forRoot(quillConfig),
     NgPipesModule,
-    ChartsModule
+    ChartsModule,
+    MatStepperModule,
+    MatInputModule,
+    NgWizardModule.forRoot(ngWizardConfig)
   ],
-  providers: [],
+  exports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
+    AceEditorModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule,
+    NgPipesModule,
+    ChartsModule,
+    MatStepperModule
+  ],
+  providers: [{
+    provide: STEPPER_GLOBAL_OPTIONS,
+    useValue: { displayDefaultIndicatorType: false }
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
